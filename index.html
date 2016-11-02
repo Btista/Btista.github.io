@@ -246,6 +246,111 @@
             
               
                 
+                <a class="post-title-link" href="/2016/11/02/11.2/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-02T16:48:44+08:00" content="2016-11-02">
+              2016-11-02
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>`<br>var moduleVariable= moduleVariable || {};</p>
+<p>moduleVariable.planA=(function(){<br>    // define some variable privately , it can only be used within this function.<br>    var someVariable={<br>        a : ‘a’,<br>        b : ‘b’,<br>        c : ‘c’<br>    };<br>    //define a couple of object to include some functions. one for privately , the other one for public.<br>    var private = {};<br>    var public = {};<br>    /<em>this is private method below , due to the object private can only be visited in this function , so the method belong to<br>    this object can only be visited in this function</em>/<br>    private.functionA=function(){<br>        /<em>Do something</em>/<br>        console.log(someVariable.a);// it can visite someVariable;<br>    }<br>    private.functionB=function(){<br>        /<em>Do something else</em>/<br>        console.log(private.functionA);// it can visite private.functionA;<br>    }</p>
+<pre><code>public.init=function(){
+    var a=someVariable.a;
+    private.functionA();
+    private.functionB();//it can visite variables and functions in this function.    
+}
+
+return public; //在最后我们返回了public，那么在外部moduleVariable.planA就等于public,moduleVariable.planA可以访问到public的init方法
+               //但是其他所有的变量，私有方法（private），都没有暴露给外部，只在public的init()方法中可以被使用
+</code></pre><p>})();</p>
+<p>$(document).ready(function(){<br>    moduleVariable.planA.init();//Be invoked here.<br>})<br>`</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/11/01/haha/" itemprop="url">
                   test
                 </a>
@@ -470,7 +575,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
