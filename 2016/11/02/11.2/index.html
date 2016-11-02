@@ -84,19 +84,16 @@
 
 
 
-<meta name="description" content="`var moduleVariable= moduleVariable || {};
-moduleVariable.planA=(function(){    // define some variable privately , it can only be used within this function.    var someVariable={        a : ‘a’,">
+<meta name="description" content="moduleVariable= moduleVariable || &amp;#123;&amp;#125;;1234567891011121314151617181920212223242526272829303132333435moduleVariable.planA=(function()&amp;#123;	// define some variable privately , it can only be us">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Btista">
+<meta property="og:title" content="A simple example about javascript module.">
 <meta property="og:url" content="https://btista.github.io/2016/11/02/11.2/index.html">
 <meta property="og:site_name" content="Btista">
-<meta property="og:description" content="`var moduleVariable= moduleVariable || {};
-moduleVariable.planA=(function(){    // define some variable privately , it can only be used within this function.    var someVariable={        a : ‘a’,">
-<meta property="og:updated_time" content="2016-11-02T09:13:33.609Z">
+<meta property="og:description" content="moduleVariable= moduleVariable || &amp;#123;&amp;#125;;1234567891011121314151617181920212223242526272829303132333435moduleVariable.planA=(function()&amp;#123;	// define some variable privately , it can only be us">
+<meta property="og:updated_time" content="2016-11-02T09:21:31.055Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Btista">
-<meta name="twitter:description" content="`var moduleVariable= moduleVariable || {};
-moduleVariable.planA=(function(){    // define some variable privately , it can only be used within this function.    var someVariable={        a : ‘a’,">
+<meta name="twitter:title" content="A simple example about javascript module.">
+<meta name="twitter:description" content="moduleVariable= moduleVariable || &amp;#123;&amp;#125;;1234567891011121314151617181920212223242526272829303132333435moduleVariable.planA=(function()&amp;#123;	// define some variable privately , it can only be us">
 
 
 
@@ -120,7 +117,7 @@ moduleVariable.planA=(function(){    // define some variable privately , it can 
   <link rel="canonical" href="https://btista.github.io/2016/11/02/11.2/"/>
 
 
-  <title>  | Btista </title>
+  <title> A simple example about javascript module. | Btista </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -250,7 +247,7 @@ moduleVariable.planA=(function(){    // define some variable privately , it can 
             
             
               
-                
+                A simple example about javascript module.
               
             
           </h1>
@@ -290,19 +287,7 @@ moduleVariable.planA=(function(){    // define some variable privately , it can 
       
 
       
-        <p>`<br>var moduleVariable= moduleVariable || {};</p>
-<p>moduleVariable.planA=(function(){<br>    // define some variable privately , it can only be used within this function.<br>    var someVariable={<br>        a : ‘a’,<br>        b : ‘b’,<br>        c : ‘c’<br>    };<br>    //define a couple of object to include some functions. one for privately , the other one for public.<br>    var private = {};<br>    var public = {};<br>    /<em>this is private method below , due to the object private can only be visited in this function , so the method belong to<br>    this object can only be visited in this function</em>/<br>    private.functionA=function(){<br>        /<em>Do something</em>/<br>        console.log(someVariable.a);// it can visite someVariable;<br>    }<br>    private.functionB=function(){<br>        /<em>Do something else</em>/<br>        console.log(private.functionA);// it can visite private.functionA;<br>    }</p>
-<pre><code>public.init=function(){
-    var a=someVariable.a;
-    private.functionA();
-    private.functionB();//it can visite variables and functions in this function.    
-}
-
-return public; //在最后我们返回了public，那么在外部moduleVariable.planA就等于public,moduleVariable.planA可以访问到public的init方法
-               //但是其他所有的变量，私有方法（private），都没有暴露给外部，只在public的init()方法中可以被使用
-</code></pre><p>})();</p>
-<p>$(document).ready(function(){<br>    moduleVariable.planA.init();//Be invoked here.<br>})<br>`</p>
-
+        <figure class="highlight plain"><figcaption><span>moduleVariable= moduleVariable || &#123;&#125;;</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">moduleVariable.planA=(function()&#123;</div><div class="line">	// define some variable privately , it can only be used within this function.</div><div class="line">	var someVariable=&#123;</div><div class="line">		a : &apos;a&apos;,</div><div class="line">		b : &apos;b&apos;,</div><div class="line">		c : &apos;c&apos;</div><div class="line">	&#125;;</div><div class="line">	//define a couple of object to include some functions. one for privately , the other one for public.</div><div class="line">	var private = &#123;&#125;;</div><div class="line">	var public = &#123;&#125;;</div><div class="line">	/*this is private method below , due to the object private can only be visited in this function , so the method belong to </div><div class="line">	this object can only be visited in this function*/</div><div class="line">	private.functionA=function()&#123;</div><div class="line">		/*Do something*/</div><div class="line">		console.log(someVariable.a);// it can visite someVariable;</div><div class="line">	&#125;</div><div class="line">	private.functionB=function()&#123;</div><div class="line">		/*Do something else*/</div><div class="line">		console.log(private.functionA);// it can visite private.functionA;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public.init=function()&#123;</div><div class="line">		var a=someVariable.a;</div><div class="line">		private.functionA();</div><div class="line">		private.functionB();//it can visite variables and functions in this function.	</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	return public; //在最后我们返回了public，那么在外部moduleVariable.planA就等于public,moduleVariable.planA可以访问到public的init方法</div><div class="line">				   //但是其他所有的变量，私有方法（private），都没有暴露给外部，只在public的init()方法中可以被使用</div><div class="line">&#125;)();</div><div class="line"></div><div class="line">$(document).ready(function()&#123;</div><div class="line">	moduleVariable.planA.init();//Be invoked here.</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
       
     </div>
 
