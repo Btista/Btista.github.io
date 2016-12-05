@@ -84,12 +84,19 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Btista">
-<meta property="og:url" content="https://btista.github.io/index.html">
+<meta name="description" content="在这篇文章中主要写的是各个模块化的基础写法和其对比，旨在辨认哪种写法是哪种模块化。
+1.CommonJSCommonJS规范多应用于后端，在nodejs中应用的比较多，遵循CommonJS规范的模块化写法写出来是这样的：在CommonJS中每个js文件就是一个独立的模块，只有把其暴露给module.exports时它才在可以用require获取到：12345678910//a.jsvar a=&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Javascript中多种模块化的用法及其对比">
+<meta property="og:url" content="https://btista.github.io/2016/12/05/15.5/index.html">
 <meta property="og:site_name" content="Btista">
+<meta property="og:description" content="在这篇文章中主要写的是各个模块化的基础写法和其对比，旨在辨认哪种写法是哪种模块化。
+1.CommonJSCommonJS规范多应用于后端，在nodejs中应用的比较多，遵循CommonJS规范的模块化写法写出来是这样的：在CommonJS中每个js文件就是一个独立的模块，只有把其暴露给module.exports时它才在可以用require获取到：12345678910//a.jsvar a=&amp;#">
+<meta property="og:updated_time" content="2016-12-05T11:26:44.105Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Btista">
+<meta name="twitter:title" content="Javascript中多种模块化的用法及其对比">
+<meta name="twitter:description" content="在这篇文章中主要写的是各个模块化的基础写法和其对比，旨在辨认哪种写法是哪种模块化。
+1.CommonJSCommonJS规范多应用于后端，在nodejs中应用的比较多，遵循CommonJS规范的模块化写法写出来是这样的：在CommonJS中每个js文件就是一个独立的模块，只有把其暴露给module.exports时它才在可以用require获取到：12345678910//a.jsvar a=&amp;#">
 
 
 
@@ -110,10 +117,10 @@
 
 
 
-  <link rel="canonical" href="https://btista.github.io/"/>
+  <link rel="canonical" href="https://btista.github.io/2016/12/05/15.5/"/>
 
 
-  <title> Btista </title>
+  <title> Javascript中多种模块化的用法及其对比 | Btista </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -134,9 +141,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
@@ -223,9 +228,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -245,10 +250,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/12/05/15.5/" itemprop="url">
-                  Javascript中多种模块化的用法及其对比
-                </a>
+                Javascript中多种模块化的用法及其对比
               
             
           </h1>
@@ -288,9 +290,7 @@
       
 
       
-        
-          
-            <p>在这篇文章中主要写的是各个模块化的基础写法和其对比，旨在辨认哪种写法是哪种模块化。</p>
+        <p>在这篇文章中主要写的是各个模块化的基础写法和其对比，旨在辨认哪种写法是哪种模块化。</p>
 <h1 id="1-CommonJS"><a href="#1-CommonJS" class="headerlink" title="1.CommonJS"></a>1.CommonJS</h1><p>CommonJS规范多应用于后端，在nodejs中应用的比较多，遵循CommonJS规范的模块化写法写出来是这样的：<br>在CommonJS中每个js文件就是一个独立的模块，只有把其暴露给module.exports时它才在可以用require获取到：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//a.js</span></div><div class="line"><span class="keyword">var</span> a=&#123;</div><div class="line">	<span class="attr">mothodA</span>: <span class="string">'a'</span>,</div><div class="line">	<span class="attr">mothodB</span>: <span class="string">'b'</span></div><div class="line">&#125;</div><div class="line"><span class="built_in">module</span>.exports=a;</div><div class="line"><span class="comment">//b.js</span></div><div class="line"><span class="keyword">var</span> a=<span class="built_in">require</span>(./a.js)</div><div class="line"><span class="keyword">var</span> $=<span class="built_in">require</span>(<span class="string">'jquery'</span>)</div><div class="line"><span class="comment">//那么在b.js后面就可以使用jquery和a对象了</span></div></pre></td></tr></table></figure></p>
 <p>CommonJs写法多用于服务器端，而很少应用于浏览器端，因为CommonJS的写法是同步的。<br>也就是说比如在上方的b.js中，我们一定得等a.js require过来了，才可以继续读下面的代码，线程会被阻塞住，所以它不适合直接应用于浏览器端。</p>
 <h1 id="2-AMD（Asynchromous-Module-Definition）异步模块规范。"><a href="#2-AMD（Asynchromous-Module-Definition）异步模块规范。" class="headerlink" title="2.AMD（Asynchromous Module Definition）异步模块规范。"></a>2.AMD（Asynchromous Module Definition）异步模块规范。</h1><p>1.AMD加载模块是异步的。<br>2.define([‘dep1’,’dep2’],function(dep1,dep2){…});<br>AMD只有一个接口即：define(id?,dependencies？，factory);  （问号代表非必须）<br>3.reqireJS依照的就是AMD规范，即require的写法就是这样：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">       <span class="keyword">return</span> &#123;</div><div class="line">           <span class="attr">mix</span>: <span class="function"><span class="keyword">function</span>(<span class="params">source, target</span>) </span>&#123;</div><div class="line">               ...</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">    &#125;);</div><div class="line">    </div><div class="line">    <span class="comment">//b.js 依赖a.js</span></div><div class="line">    define([<span class="string">'a'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">a</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">show</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">               ...</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure></p>
@@ -300,16 +300,20 @@
 <p>贴一个demo：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span>;</div><div class="line"><span class="keyword">import</span> Demo <span class="keyword">from</span> <span class="string">'./Demo'</span>;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">someFunction</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">do</span> something;</div><div class="line">	);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h1 id="5-其他"><a href="#5-其他" class="headerlink" title="5.其他"></a>5.其他</h1><p>在后续的文章中我再详细写两个话题 1.require.js的一些具体用法细节 2. ES6 Module 的特性。</p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
@@ -317,112 +321,32 @@
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/11/02/11.2/" rel="next" title="A simple example about javascript module.">
+                <i class="fa fa-chevron-left"></i> A simple example about javascript module.
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2016/11/02/11.2/" itemprop="url">
-                  A simple example about javascript module.
-                </a>
-              
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-11-02T16:48:44+08:00" content="2016-11-02">
-              2016-11-02
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <figure class="highlight plain"><figcaption><span>moduleVariable= moduleVariable || &#123;&#125;;</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">moduleVariable.planA=(function()&#123;</div><div class="line">	// define some variable privately , it can only be used within this function.</div><div class="line">	var someVariable=&#123;</div><div class="line">		a : &apos;a&apos;,</div><div class="line">		b : &apos;b&apos;,</div><div class="line">		c : &apos;c&apos;</div><div class="line">	&#125;;</div><div class="line">	//define a couple of object to include some functions. one for privately , the other one for public.</div><div class="line">	var private = &#123;&#125;;</div><div class="line">	var public = &#123;&#125;;</div><div class="line">	/*this is private method below , due to the object private can only be visited in this function , so the method belong to </div><div class="line">	this object can only be visited in this function*/</div><div class="line">	private.functionA=function()&#123;</div><div class="line">		/*Do something*/</div><div class="line">		console.log(someVariable.a);// it can visite someVariable;</div><div class="line">	&#125;</div><div class="line">	private.functionB=function()&#123;</div><div class="line">		/*Do something else*/</div><div class="line">		console.log(private.functionA);// it can visite private.functionA;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public.init=function()&#123;</div><div class="line">		var a=someVariable.a;</div><div class="line">		private.functionA();</div><div class="line">		private.functionB();//it can visite variables and functions in this function.	</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	return public; //在最后我们返回了public，那么在外部moduleVariable.planA就等于public,moduleVariable.planA可以访问到public的init方法</div><div class="line">				   //但是其他所有的变量，私有方法（private），都没有暴露给外部，只在public的init()方法中可以被使用</div><div class="line">&#125;)();</div><div class="line"></div><div class="line">$(document).ready(function()&#123;</div><div class="line">	moduleVariable.planA.init();//Be invoked here.</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -430,6 +354,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -449,8 +377,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -486,6 +423,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-CommonJS"><span class="nav-number">1.</span> <span class="nav-text">1.CommonJS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-AMD（Asynchromous-Module-Definition）异步模块规范。"><span class="nav-number">2.</span> <span class="nav-text">2.AMD（Asynchromous Module Definition）异步模块规范。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-CMD"><span class="nav-number">3.</span> <span class="nav-text">3.CMD</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-ES6-Module"><span class="nav-number">4.</span> <span class="nav-text">4.ES6 Module</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-其他"><span class="nav-number">5.</span> <span class="nav-text">5.其他</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -582,6 +530,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
 
   
 
