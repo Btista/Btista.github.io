@@ -84,16 +84,27 @@
 
 
 
-<meta name="description" content="moduleVariable= moduleVariable || &amp;#123;&amp;#125;;1234567891011121314151617181920212223242526272829303132333435moduleVariable.planA=(function()&amp;#123;	// define some variable privately , it can only be us">
+<meta name="description" content="1.var定义的是“当前作用域下的一个变量”，当在函数内部不使用var声明时，会被当做全局变量而不是函数内的局部变量（严格模式下还会报错）
+2.js的预编辑：【对定义式函数】直接创建为作用域上的函数变量，并将其值初始化为定义的函数代码逻辑，也就是为其建立了可调用的函数变量。
+3.js的预编辑：【对var定义的变量】 会在开始先全部找出来，并且将初始值设为undefined
+4.【对上面代码的解释】">
 <meta property="og:type" content="article">
-<meta property="og:title" content="A simple example about javascript module.">
-<meta property="og:url" content="https://btista.github.io/2016/11/02/11.2/index.html">
+<meta property="og:title" content="mo-post">
+<meta property="og:url" content="https://btista.github.io/2015/03/06/mo-post/index.html">
 <meta property="og:site_name" content="Btista">
-<meta property="og:description" content="moduleVariable= moduleVariable || &amp;#123;&amp;#125;;1234567891011121314151617181920212223242526272829303132333435moduleVariable.planA=(function()&amp;#123;	// define some variable privately , it can only be us">
-<meta property="og:updated_time" content="2016-11-02T09:21:31.055Z">
+<meta property="og:description" content="1.var定义的是“当前作用域下的一个变量”，当在函数内部不使用var声明时，会被当做全局变量而不是函数内的局部变量（严格模式下还会报错）
+2.js的预编辑：【对定义式函数】直接创建为作用域上的函数变量，并将其值初始化为定义的函数代码逻辑，也就是为其建立了可调用的函数变量。
+3.js的预编辑：【对var定义的变量】 会在开始先全部找出来，并且将初始值设为undefined
+4.【对上面代码的解释】">
+<meta property="og:image" content="http://images.cnitblog.com/blog2015/728060/201503/061654534611762.png">
+<meta property="og:updated_time" content="2016-12-29T02:44:27.675Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="A simple example about javascript module.">
-<meta name="twitter:description" content="moduleVariable= moduleVariable || &amp;#123;&amp;#125;;1234567891011121314151617181920212223242526272829303132333435moduleVariable.planA=(function()&amp;#123;	// define some variable privately , it can only be us">
+<meta name="twitter:title" content="mo-post">
+<meta name="twitter:description" content="1.var定义的是“当前作用域下的一个变量”，当在函数内部不使用var声明时，会被当做全局变量而不是函数内的局部变量（严格模式下还会报错）
+2.js的预编辑：【对定义式函数】直接创建为作用域上的函数变量，并将其值初始化为定义的函数代码逻辑，也就是为其建立了可调用的函数变量。
+3.js的预编辑：【对var定义的变量】 会在开始先全部找出来，并且将初始值设为undefined
+4.【对上面代码的解释】">
+<meta name="twitter:image" content="http://images.cnitblog.com/blog2015/728060/201503/061654534611762.png">
 
 
 
@@ -114,10 +125,10 @@
 
 
 
-  <link rel="canonical" href="https://btista.github.io/2016/11/02/11.2/"/>
+  <link rel="canonical" href="https://btista.github.io/2015/03/06/mo-post/"/>
 
 
-  <title> A simple example about javascript module. | Btista </title>
+  <title> mo-post | Btista </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -247,7 +258,7 @@
             
             
               
-                A simple example about javascript module.
+                mo-post
               
             
           </h1>
@@ -259,8 +270,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-11-02T16:48:44+08:00" content="2016-11-02">
-              2016-11-02
+            <time itemprop="dateCreated" datetime="2015-03-06T16:50:15+08:00" content="2015-03-06">
+              2015-03-06
             </time>
           </span>
 
@@ -287,7 +298,12 @@
       
 
       
-        <figure class="highlight plain"><figcaption><span>moduleVariable= moduleVariable || &#123;&#125;;</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">moduleVariable.planA=(function()&#123;</div><div class="line">	// define some variable privately , it can only be used within this function.</div><div class="line">	var someVariable=&#123;</div><div class="line">		a : &apos;a&apos;,</div><div class="line">		b : &apos;b&apos;,</div><div class="line">		c : &apos;c&apos;</div><div class="line">	&#125;;</div><div class="line">	//define a couple of object to include some functions. one for privately , the other one for public.</div><div class="line">	var private = &#123;&#125;;</div><div class="line">	var public = &#123;&#125;;</div><div class="line">	/*this is private method below , due to the object private can only be visited in this function , so the method belong to </div><div class="line">	this object can only be visited in this function*/</div><div class="line">	private.functionA=function()&#123;</div><div class="line">		/*Do something*/</div><div class="line">		console.log(someVariable.a);// it can visite someVariable;</div><div class="line">	&#125;</div><div class="line">	private.functionB=function()&#123;</div><div class="line">		/*Do something else*/</div><div class="line">		console.log(private.functionA);// it can visite private.functionA;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public.init=function()&#123;</div><div class="line">		var a=someVariable.a;</div><div class="line">		private.functionA();</div><div class="line">		private.functionB();//it can visite variables and functions in this function.	</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	return public; //在最后我们返回了public，那么在外部moduleVariable.planA就等于public,moduleVariable.planA可以访问到public的init方法</div><div class="line">				   //但是其他所有的变量，私有方法（private），都没有暴露给外部，只在public的init()方法中可以被使用</div><div class="line">&#125;)();</div><div class="line"></div><div class="line">$(document).ready(function()&#123;</div><div class="line">	moduleVariable.planA.init();//Be invoked here.</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+        <p><img src="http://images.cnitblog.com/blog2015/728060/201503/061654534611762.png" alt=""><br>1.var定义的是“当前作用域下的一个变量”，当在函数内部不使用var声明时，会被当做全局变量而不是函数内的局部变量（严格模式下还会报错）</p>
+<p>2.js的预编辑：【对定义式函数】直接创建为作用域上的函数变量，并将其值初始化为定义的函数代码逻辑，也就是为其建立了可调用的函数变量。</p>
+<p>3.js的预编辑：【对var定义的变量】 会在开始先全部找出来，并且将初始值设为undefined</p>
+<p>4.【对上面代码的解释】：第一个yourname是undefined:在js开始解析时获得了第一行的yourname声明和函数内部的yourname声明，也就是说在函数内部的局部变量里yourname是被声明过的，然后他们被赋予undefined（等待进一步赋值），然而在函数内部时调用在前赋值在后，所以显示的是undefined；</p>
+<p>5.最后一行仍然是“李战”：js倾向于先在当前作用域中找函数或变量，如果没有的话再到上层去找，以此类推</p>
+<h4 id="最后贴几个很好的例子："><a href="#最后贴几个很好的例子：" class="headerlink" title="最后贴几个很好的例子："></a>最后贴几个很好的例子：</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"> alert(testNum);  </div><div class="line"> <span class="number">2</span>     alert(<span class="string">'ok'</span>);  </div><div class="line"> <span class="number">3</span>     testNum = <span class="number">2</span>;  </div><div class="line"> <span class="number">4</span>     <span class="comment">//testNum未声明，执行报错。  </span></div><div class="line"> <span class="number">5</span>     alert(testNum);  </div><div class="line"> <span class="number">6</span>     alert(<span class="string">'ok'</span>);  </div><div class="line"> <span class="number">7</span>     <span class="keyword">var</span> testNum = <span class="number">2</span>;  </div><div class="line"> <span class="number">8</span>     <span class="comment">//弹出undefined和ok。预编译的时候，声明了变量t；执行到alert(t)这行代码的时候，t尚未被赋值，所以弹出undefined。  </span></div><div class="line"> <span class="number">9</span>     testFunc();  </div><div class="line"><span class="number">10</span>     <span class="function"><span class="keyword">function</span> <span class="title">testFunc</span>(<span class="params"></span>) </span>&#123;&#125;  </div><div class="line"><span class="number">11</span>     alert(<span class="string">'ok'</span>);  </div><div class="line"><span class="number">12</span>     <span class="comment">//弹出ok。预编译的时候，解析了定义式函数语句function testFunc() &#123;&#125;，顺利执行。  </span></div><div class="line"><span class="number">13</span>     testFunc();  </div><div class="line"><span class="number">14</span>     <span class="keyword">var</span> testFunc = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;  </div><div class="line"><span class="number">15</span>     alert(<span class="string">'ok'</span>);  </div><div class="line"><span class="number">16</span>     <span class="comment">//testFunc不是函数，执行报错。预编译的时候，声明了变量testFunc = undefined；执行到testFunc()时，testFunc还等于undefined，不是函数，所以执行testFunc()会报错。  </span></div><div class="line"><span class="number">17</span> </div><div class="line"><span class="number">18</span>  </div><div class="line"><span class="number">19</span> </div><div class="line"><span class="number">20</span>     &lt;\script type=<span class="string">"text/javascript"</span>&gt;  </div><div class="line"><span class="number">21</span>     testFunc();  </div><div class="line"><span class="number">22</span>     alert(<span class="string">'first block'</span>);  </div><div class="line"><span class="number">23</span>     &lt;!--\script--&gt;  </div><div class="line"><span class="number">24</span>     &lt;\script type=<span class="string">"text/javascript"</span>&gt;  </div><div class="line"><span class="number">25</span>     alert(<span class="string">'second block'</span>);  </div><div class="line"><span class="number">26</span>     &lt;!--\script--&gt;  </div><div class="line"><span class="number">27</span>     <span class="comment">//弹出second block。因为JS是一段一段执行的，第一段执行到testFunc()的时候报错，整个第一段都不会再执行，第二段正常执行。</span></div></pre></td></tr></table></figure>
       
     </div>
 
@@ -312,16 +328,12 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/13/事件冒泡机制和事件委派-以及回调的匿名函数参数/" rel="next" title="事件冒泡机制和事件委派 以及回调的匿名函数参数">
-                <i class="fa fa-chevron-left"></i> 事件冒泡机制和事件委派 以及回调的匿名函数参数
-              </a>
-            
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/12/05/15.5/" rel="prev" title="Javascript中多种模块化的用法及其对比">
-                Javascript中多种模块化的用法及其对比 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/11/02/11.2/" rel="prev" title="A simple example about javascript module.">
+                A simple example about javascript module. <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -390,7 +402,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -422,7 +434,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#最后贴几个很好的例子："><span class="nav-number">1.</span> <span class="nav-text">最后贴几个很好的例子：</span></a></li></ol></div>
             
           </div>
         </section>

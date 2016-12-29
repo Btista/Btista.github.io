@@ -441,8 +441,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/01/29/mo-post/" itemprop="url">
-                  mo-post
+                <a class="post-title-link" href="/2016/04/13/事件冒泡机制和事件委派-以及回调的匿名函数参数/" itemprop="url">
+                  事件冒泡机制和事件委派 以及回调的匿名函数参数
                 </a>
               
             
@@ -455,8 +455,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-29T10:20:15+08:00" content="2016-01-29">
-              2016-01-29
+            <time itemprop="dateCreated" datetime="2016-04-13T18:40:47+08:00" content="2016-04-13">
+              2016-04-13
             </time>
           </span>
 
@@ -485,7 +485,721 @@
       
         
           
-            <h1 id="1-asasasasasasasasasasasasasasasasas"><a href="#1-asasasasasasasasasasasasasasasasas" class="headerlink" title="1.asasasasasasasasasasasasasasasasas"></a>1.asasasasasasasasasasasasasasasasas</h1><p>CommonJS规范多应用于后端，在nodejs中应用的比较多，遵循CommonJS规范的模块化写法写出来是这样的：<br>在CommonJS中每个js文件就是一个独立的模块，只有把其暴露给module.exports时它才在可以用require获取到：<br>```javascript</p>
+            <p>1.事件冒泡机制：</p>
+<p>事件冒泡机制也就是当一个事件绑定到一个元素上时，如果这个元素不存在或者回调函数返回ture,那么这个事件就会向上冒泡，继续绑定这个元素的父级元素直至document。（如果事件返回return false则不会冒泡）</p>
+<p>阻止冒泡：1.事件return false ; 2.evt.stopPropagation(这个evt指此次事件，写在事件匿名回调函数的参数里)例如： $(‘li’).click(function(evt){evt.stopPropagation()});</p>
+<p>2.事件委托：</p>
+<p>jQuery的on方法和delegate方法都可以给未来出现的元素绑定事件，原理就是利用事件冒泡机制</p>
+<p>on方法和delegate方法会将【事件处理函数】绑定（委托）在需要绑定的元素的父级元素上，当其子元素触发事件时，这个事件会冒泡上来触发父元素身上的【事件处理函数】，而这个过程中会判断这个事件发生的元素是否是子元素，如果不是子元素，就不执行【事件处理函数】；</p>
+<p>具体思路是下面这样：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 获取父节点，并为它添加一个click事件</span></div><div class="line"><span class="built_in">document</span>.getElementById(<span class="string">"parent-list"</span>).addEventListener(<span class="string">"click"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="comment">// 检查事件源e.targe是否为Li</span></div><div class="line">  <span class="keyword">if</span>(e.target &amp;&amp; e.target.nodeName.toUpperCase == <span class="string">"LI"</span>) &#123;</div><div class="line">    <span class="comment">// 真正的处理过程在这里</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"List item "</span>,e.target.id.replace(<span class="string">"post-"</span>),<span class="string">" was clicked!"</span>);</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>e是这个事件，e.target事件发生的元素/事件源；</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/04/11/You-Don-t-Know-JS-Scope-Closures-翻译/" itemprop="url">
+                  You Don't Know JS: Scope & Closures(翻译)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-11T11:14:16+08:00" content="2016-04-11">
+              2016-04-11
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Chapter 1: What is Scope?<br>第一章：什么是作用域</p>
+<p>One of the most fundamental paradigms of nearly all programming languages is the ability to store values in variables, and later retrieve or modify those values. In fact, the ability to store values and pull values out of variables is what gives a program state.</p>
+<p>在几乎所有编程语言中，储存值到变量中和稍后检索或改变这些值都是最基本的能力之一。事实上，这种存储值到变量和将值移除变量的能力才给了程序以“状态”。</p>
+<p>Without such a concept, a program could perform some tasks, but they would be extremely limited and not terribly interesting.</p>
+<p>没了这个概念的话，一个程序也能完成一些任务，但他们就会有很多地方被限制并且一点都不有趣了。</p>
+<p>But the inclusion of variables into our program begets the most interesting questions we will now address: where do those variables live? In other words, where are they stored? And, most importantly, how does our program find them when it needs them?</p>
+<p>但是把变量包含到我们的程序中带来的最有趣的问题是：这些变量在哪儿？或者说，他们存储在哪儿？最重要的是，当我们的程序需要这些变量的时候，它是如何找到他们的？</p>
+<p>These questions speak to the need for a well-defined set of rules for storing variables in some location, and for finding those variables at a later time. We’ll call that set of rules: Scope.</p>
+<p>这个问题需要一个定义明确的规则，用于存储变量在某些位置，以及在之后再找出这些变量，我们可以把这个规则叫：作用域</p>
+<p>But, where and how do these Scope rules get set?</p>
+<p>但是，作用域规则在哪儿设置？怎么设置的?</p>
+<p>Compiler Theory<br>编译原理</p>
+<p>It may be self-evident, or it may be surprising, depending on your level of interaction with various languages, but despite the fact that JavaScript falls under the general category of “dynamic” or “interpreted” languages, it is in fact a compiled language. It is not compiled well in advance, as are many traditionally-compiled languages, nor are the results of compilation portable among various distributed systems.</p>
+<p>这可能是不言而喻的，或者可能令人惊讶——取决于你融会贯通各种语言的能力，但是尽管JS属于一般范畴的动态型和解释型语言，实际上它却是一个编译型语言。它不是提前编译好的，因为有许多传统编译语言也不是各种分布式编译系统的产物。</p>
+<p>But, nevertheless, the JavaScript engine performs many of the same steps, albeit in more sophisticated ways than we may commonly be aware, of any traditional language-compiler.</p>
+<p>但是，尽管如此，JS引擎也执行着许多相同的步骤，尽管它使用的是一种更为复杂的方式——比我们可能意识到的任何传统编译语言</p>
+<p>In traditional compiled-language process, a chunk of source code, your program, will undergo typically three steps before it is executed, roughly called “compilation”: </p>
+<p>在传统的编译语言过程中，一块源代码，也就是你的程序，会在执行前遵从典型的‘三步走’，也就是‘编译’</p>
+<p>Tokenizing/Lexing: breaking up a string of characters into meaningful (to the language) chunks, called tokens. For instance, consider the program: var a = 2;. This program would likely be broken up into the following tokens: var, a, =, 2, and ;. Whitespace may or may not be persisted as a token, depending on whether it’s meaningful or not.</p>
+<p>Note: The difference between tokenizing and lexing is subtle and academic, but it centers on whether or not these tokens are identified in a stateless or stateful way. Put simply, if the tokenizer were to invoke stateful parsing rules to figure out whether a should be considered a distinct token or just part of another token, that would be lexing.</p>
+<p>1.分词/词法分析：分词指将一段字符串破成有意义的（相对于这门语言）小块。比如，考虑这段代码：var a=2;这条程序可能会被破成下面的部分：var , a, =,2,还有；  空白可能成为分词小块也可能不会，这得取决于它是否有含义。</p>
+<p>注：分词和词法分析之间的区别既微妙又学术，但关键在于这些小块被明确为有状态的还是无状态的。简单点儿说，如果分词块儿调用的是有状态的词法分析规则，来区分a应该作为一个单独的词法块儿还是仅仅是另外一块词法块儿的一部分，那么这个过程就称作词法分析。（我的理解就是 把字符串分为有意义的tokens这是分词，确定每一小块代码段是应该独立还是应该和另外一块合并成一个token，这是词法分析）。</p>
+<p>2.Parsing: taking a stream (array) of tokens and turning it into a tree of nested elements, which collectively represent the grammatical structure of the program. This tree is called an “AST” (Abstract Syntax Tree).</p>
+<p> The tree for var a = 2; might start with a top-level node called VariableDeclaration, with a child node called Identifier (whose value is a), and another child called AssignmentExpression which itself has a child called NumericLiteral (whose value is 2).</p>
+<p>2.解析：取一段分词过的代码流，然后把它变成一个代表了程序语法结构的嵌套元素树，这个树的名字叫AST(Abstract Syntax Tree).</p>
+<p> 在这个树状结构的解析中，对于var a=2;可能从最高层——变量声明（VariableDeclaration）开始，然后是它的子节点——标识符（Identifier）（它的值是a）,已经另外一个子节点AssignmentExpression的子节点叫NumericLiteral（它的值是2）。</p>
+<p>3.Code-Generation: the process of taking an AST and turning it into executable code. This part varies greatly depending on the language, the platform it’s targeting, etc.</p>
+<p> So, rather than get mired in details, we’ll just handwave and say that there’s a way to take our above described AST for var a = 2; and turn it into a set of machine instructions to actually create a variable called a (including reserving memory, etc.), and then store a value into a.</p>
+<p> Note: The details of how the engine manages system resources are deeper than we will dig, so we’ll just take it for granted that the engine is able to create and store variables as needed.</p>
+<p>3.代码生成：这个过程是使用AST将代码块变为可执行的代码，这部分的过程很依赖于语言本身，包括它的目标平台等。</p>
+<p> 所以为了避免在细节里太纠结，我们就直接说上述的AST处理了我们的var a = 2；并且把它变成了一行机器指令——这行指令创造出一个变量a，并且存了一个值进去。</p>
+<p> 注：引擎如何管理系统资源这是一个很深的坑，超出了我们的讨论范围。所以我们只需要知道引擎可以按需求创造出变量并且给它赋值就可以了。</p>
+<p>  The JavaScript engine is vastly more complex than just those three steps, as are most other language compilers. For instance, in the process of parsing and code-generation, there are certainly steps to optimize the performance of the execution, including collapsing redundant elements, etc.</p>
+<p>  JS引擎做的工作远比这三步要复杂，比如，在解析和代码生成这两步的过程中，还有一定的步骤去以优化性能的执行，包括折叠冗余元素等。</p>
+<p>  So, I’m painting only with broad strokes here. But I think you’ll see shortly why these details we do cover, even at a high level, are relevant.</p>
+<p>  所以，我们就言止于此好了，但是你很快就会意识到为什么我们需要关心这个，即使处于一个很高的水平，这些也是息息相关的。</p>
+<p>   For one thing, JavaScript engines don’t get the luxury (like other language compilers) of having plenty of time to optimize, because JavaScript compilation doesn’t happen in a build step ahead of time, as with other languages.</p>
+<p>   还有一件事是js引擎并不像其他语言编译一样有充分的时间去优化，因为js编译并没有像其他语言一样发生在构造之前</p>
+<p>   For JavaScript, the compilation that occurs happens, in many cases, mere microseconds (or less!) before the code is executed. To ensure the fastest performance, JS engines use all kinds of tricks (like JITs, which lazy compile and even hot re-compile, etc.) which are well beyond the “scope” of our discussion here.</p>
+<p>  对于js来说，在许多情况下编译发生在执行这段代码前几微秒（或者更少！）的时间里，为了确保最快的性能，js引擎使用了各种技巧，这些都远远超出了我们讨论的“作用域”。</p>
+<p>   Let’s just say, for simplicity’s sake, that any snippet of JavaScript has to be compiled before (usually right before!) it’s executed. So, the JS compiler will take the program var a = 2; and compile it first, and then be ready to execute it, usually right away.</p>
+<p>  我们就这么说吧，为了简单起见，任何js代码都会在执行前被编译，所以，js编译器会拿走程序var a = 2，然后先编译它，然后准备去执行它。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/01/19/call-和原型继承的方法/" itemprop="url">
+                  call()和原型继承的方法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-19T17:53:52+08:00" content="2016-01-19">
+              2016-01-19
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.call()</p>
+<p>call()方法接受两个参数，obj和arg </p>
+<p>比如functionA.call（obj,arg）   就是说现在运行(执行)functionA这个方法，但是functionA里面的方法不是为它以前的对象而运行了，把functionA的this强行改变成了obj</p>
+<p>obj成为functionA中的this，然后来运行functionA这个方法，而arg是传给functionA的参数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Student</span>(<span class="params">props</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = props.name || <span class="string">'Unnamed'</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Student.prototype.hello = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    alert(<span class="string">'Hello, '</span> + <span class="keyword">this</span>.name + <span class="string">'!'</span>);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">PrimaryStudent</span>(<span class="params">props</span>) </span>&#123;</div><div class="line">    Student.call(<span class="keyword">this</span>, props);</div><div class="line">    <span class="keyword">this</span>.grade = props.grade || <span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>比如上面的代码，先定义了Student方法，然后定义了PrimaryStudent方法<br>在PrimaryStudent中， Student.call(this, props);指的是把this——也就是PrimaryStudent对象作为Student运行时的那个this，把props传给Student作为参数，来运行Student这个方法，运行出来的结果是什么呢<br>PrimaryStudent.name=props.name //这个props是传进来那个props<br>然后PrimaryStudent.prototype.hello = function () { alert(‘Hello, ‘ + this.name + ‘!’); }   它还获得了一个写在原型里的方法<br>则PrimaryStudent这个函数运行下来的结果相当于<br>function PrimaryStudent(props){<br>this.name = props.name || ‘Unnamed’;<br>this.prototype.hello = function () {<br>    alert(‘Hello, ‘ + this.name + ‘!’);<br>}<br>}<br>  这就是call方法<br>它会运行一个函数，然后告诉这个函数你现在得用我给你的对象来运行你的那套方法，返回出什么东西是什么东西</p>
+<p>2.原型继承</p>
+<p>而原型继承呢<br>一般我们会先定义一个方法  比如刚才的Student<br>Student方法里有属性，有定义在原型里的方法<br>然后我们想继承Student，我们定义出一个新的函数 littleStudent<br>在这个新的函数内部我们  Student.call(this,arg)   在这里this指的是littleStudent，按上面定义的Student函数（内部拿this写属性和方法），我们会获得一个littleStudent它内部有Student的那些属性和方法<br>等于Student在我们littleStudent内部执行了一遍，并且是为我们造属性和方法的，我们littleStudent现在也有这些方法了<br>但这样是继承吗？Student日后有改变，我们的littleStudent会有改变吗，不会<br>因为我们只是拿call让Student给我们也造了一套属性的方法，我们littleStudent的原型仍然指向littleStudent.protptype<br>当前的原型链是职业的  new littleStudent() —-&gt; littleStudent.prototype —-&gt; Object.prototype —-&gt; null   跟Student没有关系<br>需要变成这样  new littleStudent() —-&gt; littleStudent.prototype —-&gt; Student.prototype —-&gt; Object.prototype —-&gt; null<br>那么怎么继承呢</p>
+<p>先创建一个空函数F（）{     }<br>把这个空函数的原型指向Student的原型：F.prototype = Student.prototype;<br>然后把littleStudent的原型指向F的实例：littleStudent.prototype=new F();；   则littleStudent的原型里包含了student原型里的所有内容<br>然后把littleStudent原型的构造函数修复为littleStudent：littleStudent.prototype.constructor = littleStudent;   因为之前littleStudent.prototype=new F()   则new F().constructor指向的是构造函数F<br>然后我们就可以继续在littleStudent对象的原型上添加方法和属性了<br>littleStudent.prototype.getGrade = function () {<br>    return this.grade;<br>};<br>而这并不会影响Student的原型，因为我们在这儿添加方法相当于是在new F()上添加方法<br>至此我们又给littleStudent继承了Student的原型，又可以随意给它扩展，这就完成了一次继承</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/01/04/基础内容回顾/" itemprop="url">
+                  基础内容回顾
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-04T22:37:02+08:00" content="2016-01-04">
+              2016-01-04
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.高阶函数指把函数作为参数的函数，map和reduce就是两个高阶函数</p>
+<p>map接受一个方法作为参数，可以对一个数列中的每一个元素拿此方法做处理，像这样<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">pow</span>(<span class="params">x</span>)</span>&#123;<span class="keyword">return</span> x+<span class="number">1</span>&#125;</div><div class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>].map(pow)</div><div class="line"><span class="comment">//[2, 3, 4, 5, 6]</span></div></pre></td></tr></table></figure></p>
+<p>reduce接受一个方法作为参数，这个方法必须有两个参数，可以对一个数列中的元素做累计处理，第一个参数为数组处理的累积返回值，第二个参数为新加入处理的数组元素<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">pow</span>(<span class="params">x,y</span>)</span>&#123;<span class="keyword">return</span> x+y&#125;</div><div class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>].reduce(pow)</div><div class="line"><span class="number">15</span></div></pre></td></tr></table></figure></p>
+<p>但是需要注意的是，map和reduce只需要处理数组的方法，即只需要传reduce(pow)，不需要reduce(pow())；另外，map和reduce是两个方法，两个api，直接跟在数组后面，如：[1,2,3,4,5].reduce(pow)</p>
+<p>2.闭包</p>
+<p>闭包指的就是一个函数里面返回了一个函数，或者这个函数返回的值里有未执行的函数，像这样：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">count</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> arr = [];</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">1</span>; i&lt;=<span class="number">3</span>; i++) &#123;</div><div class="line">        arr.push(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> i * i;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> arr;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>count()，执行后返回了arr数组，arr数组中每一个元素都是一个未执行的函数，返回出来是这样的<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">count()</div><div class="line">[funciton() &#123;<span class="keyword">return</span> i * i;&#125;,funciton() &#123;<span class="keyword">return</span> i * i;&#125;,funciton() &#123;<span class="keyword">return</span> i * i;&#125;]</div></pre></td></tr></table></figure></p>
+<p>这就是闭包了，返回了未执行的函数或者返回的值里包含未执行的函数，这里要说的是闭包的第一个特性，闭包可以保存外部函数带来的数据：</p>
+<p>  比如一个函数内含闭包，在闭包外声明var a=1;然后闭包中也用了a，那么外部这个函数执行完后会返回这个闭包，闭包中这个a=1的值仍然保存，单独放在那里也保存着a=1，因为闭包是一个“携带状态的函数，并且它的状态可以完全对外隐藏起来”</p>
+<p>比如下面这个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">create_counter</span>(<span class="params">initial</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> x = initial || <span class="number">0</span>;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">inc</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            x += <span class="number">1</span>;</div><div class="line">            <span class="keyword">return</span> x;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> c1 = create_counter();</div><div class="line">c1.inc(); <span class="comment">// 1</span></div><div class="line">c1.inc(); <span class="comment">// 2</span></div><div class="line">c1.inc(); <span class="comment">// 3</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> c2 = create_counter(<span class="number">10</span>);</div><div class="line">c2.inc(); <span class="comment">// 11</span></div><div class="line">c2.inc(); <span class="comment">// 12</span></div><div class="line">c2.inc(); <span class="comment">// 13</span></div></pre></td></tr></table></figure></p>
+<p>如以上代码，x的值在闭包中始终存在。</p>
+<p>我之前疑惑的一点是在调用c1.inc()时，c1不是等于create_counter()吗?它每c1.inc（）一次，先执行c1时难道不会把x再次初始化吗，那闭包中保存的值不是被初始化了</p>
+<p>后来想了想，原来c1=create_counter()意思是c1是create_counter这个函数执行后的返回值，它的返回值是什么，是闭包啊，没有那个初始化语句了，所以上面说“先执行c1”是可笑的，因为它只是一个值而已，它只是一个执行过的函数返回的值而已</p>
+<p>闭包的第二个特性就是，闭包保存的值（外部的值沿用到内部因未执行保存起来的），保存的是这个值的最后一个状态</p>
+<p>什么意思呢<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">count</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> arr = [];</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">1</span>; i&lt;=<span class="number">3</span>; i++) &#123;</div><div class="line">        arr.push(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> i * i;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> arr;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个最终返回的是[16,16,16]，因为i循环完了的时候，返回的闭包还是[funciton() {return i <em> i;},funciton() {return i </em> i;},funciton() {return i * i;}]</p>
+<p>并没有执行，但是i已经等于4了，所以等它们重见天日的时候，它们内部保存的状态（值）是i=4</p>
+<p>待续</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/09/16/locationHash/" itemprop="url">
+                  locationHash的摘抄（转）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-09-16T17:31:21+08:00" content="2015-09-16">
+              2015-09-16
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>去年9月，twitter改版。</p>
+<p>一个显著变化，就是URL加入了”#!”符号。比如，改版前的用户主页网址为</p>
+<p>　　<a href="http://twitter.com/username" target="_blank" rel="external">http://twitter.com/username</a></p>
+<p>改版后，就变成了</p>
+<p>　　<a href="http://twitter.com/#!/username" target="_blank" rel="external">http://twitter.com/#!/username</a></p>
+<p>在我印象中，这是主流网站第一次将”#”大规模用于直接与用户交互的关键URL中。这表明井号（Hash）的作用正在被重新认识。本文根据HttpWatch的文章，整理与井号有关的所有重要知识点。</p>
+<p>一、#的涵义</p>
+<p>代表网页中的一个位置。其右面的字符，就是该位置的标识符。比如，</p>
+<p>　　<a href="http://www.example.com/index.html#print" target="_blank" rel="external">http://www.example.com/index.html#print</a></p>
+<p>就代表网页index.html的print位置。浏览器读取这个URL后，会自动将print位置滚动至可视区域。</p>
+<p>为网页位置指定标识符，有两个方法。一是使用锚点，比如<a name="print"></a>，二是使用id属性，比如<div id="print">。</div></p>
+<p>二、HTTP请求不包括#</p>
+<p>是用来指导浏览器动作的，对服务器端完全无用。所以，HTTP请求中不包括#。</p>
+<p>比如，访问下面的网址，</p>
+<p>　　<a href="http://www.example.com/index.html#print" target="_blank" rel="external">http://www.example.com/index.html#print</a></p>
+<p>浏览器实际发出的请求是这样的：</p>
+<p>　　GET /index.html HTTP/1.1</p>
+<p>　　Host: www.example.com</p>
+<p>可以看到，只是请求index.html，根本没有”#print”的部分。</p>
+<p>三、#后的字符</p>
+<p>在第一个#后面出现的任何字符，都会被浏览器解读为位置标识符。这意味着，这些字符都不会被发送到服务器端。</p>
+<p>比如，下面URL的原意是指定一个颜色值：</p>
+<p>　　<a href="http://www.example.com/?color=#fff" target="_blank" rel="external">http://www.example.com/?color=#fff</a></p>
+<p>但是，浏览器实际发出的请求是：</p>
+<p>　　GET /?color= HTTP/1.1</p>
+<p>　　Host: www.example.com</p>
+<p>可以看到，”#fff”被省略了。只有将#转码为%23，浏览器才会将其作为实义字符处理。也就是说，上面的网址应该被写成：</p>
+<p>　　<a href="http://example.com/?color=%23fff" target="_blank" rel="external">http://example.com/?color=%23fff</a></p>
+<p>四、改变#不触发网页重载</p>
+<p>单单改变#后的部分，浏览器只会滚动到相应位置，不会重新加载网页。</p>
+<p>比如，从</p>
+<p>　　<a href="http://www.example.com/index.html#location1" target="_blank" rel="external">http://www.example.com/index.html#location1</a></p>
+<p>改成</p>
+<p>　　<a href="http://www.example.com/index.html#location2" target="_blank" rel="external">http://www.example.com/index.html#location2</a></p>
+<p>浏览器不会重新向服务器请求index.html。</p>
+<p>五、改变#会改变浏览器的访问历史</p>
+<p>每一次改变#后的部分，都会在浏览器的访问历史中增加一个记录，使用”后退”按钮，就可以回到上一个位置。</p>
+<p>这对于ajax应用程序特别有用，可以用不同的#值，表示不同的访问状态，然后向用户给出可以访问某个状态的链接。</p>
+<p>值得注意的是，上述规则对IE 6和IE 7不成立，它们不会因为#的改变而增加历史记录。</p>
+<p>六、window.location.hash读取#值</p>
+<p>window.location.hash这个属性可读可写。读取时，可以用来判断网页状态是否改变；写入时，则会在不重载网页的前提下，创造一条访问历史记录。</p>
+<p>七、onhashchange事件</p>
+<p>这是一个HTML 5新增的事件，当#值发生变化时，就会触发这个事件。IE8+、Firefox 3.6+、Chrome 5+、Safari 4.0+支持该事件。</p>
+<p>它的使用方法有三种：</p>
+<p>　　window.onhashchange = func;</p>
+<p>　　<body onhashchange="func();"></body></p>
+<p>　　window.addEventListener(“hashchange”, func, false);</p>
+<p>对于不支持onhashchange的浏览器，可以用setInterval监控location.hash的变化。</p>
+<p>八、Google抓取#的机制</p>
+<p>默认情况下，Google的网络蜘蛛忽视URL的#部分。</p>
+<p>但是，Google还规定，如果你希望Ajax生成的内容被浏览引擎读取，那么URL中可以使用”#!”，Google会自动将其后面的内容转成查询字符串_escaped<em>fragment</em>的值。</p>
+<p>比如，Google发现新版twitter的URL如下：</p>
+<p>　　<a href="http://twitter.com/#!/username" target="_blank" rel="external">http://twitter.com/#!/username</a></p>
+<p>就会自动抓取另一个URL：</p>
+<p>　　<a href="http://twitter.com/?_escaped_fragment_=/username" target="_blank" rel="external">http://twitter.com/?_escaped_fragment_=/username</a></p>
+<p>通过这种机制，Google就可以索引动态的Ajax内容。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/09/02/javascript-Date-format/" itemprop="url">
+                  javascript Date format
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-09-02T16:19:00+08:00" content="2015-09-02">
+              2015-09-02
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h6 id="来自CSDN的Meizz"><a href="#来自CSDN的Meizz" class="headerlink" title="来自CSDN的Meizz"></a>来自CSDN的Meizz</h6><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">/ 对<span class="built_in">Date</span>的扩展，将 <span class="built_in">Date</span> 转化为指定格式的<span class="built_in">String</span>  </div><div class="line"><span class="comment">// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，  </span></div><div class="line"><span class="comment">// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)  </span></div><div class="line"><span class="comment">// 例子：  </span></div><div class="line"><span class="comment">// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==&gt; 2006-07-02 08:09:04.423  </span></div><div class="line"><span class="comment">// (new Date()).Format("yyyy-M-d h:m:s.S")      ==&gt; 2006-7-2 8:9:4.18  </span></div><div class="line"><span class="built_in">Date</span>.prototype.Format = <span class="function"><span class="keyword">function</span>(<span class="params">fmt</span>)  </span></div><div class="line">&#123; <span class="comment">//author: meizz  </span></div><div class="line">  <span class="keyword">var</span> o = &#123;  </div><div class="line">    <span class="string">"M+"</span> : <span class="keyword">this</span>.getMonth()+<span class="number">1</span>,                 <span class="comment">//月份  </span></div><div class="line">    <span class="string">"d+"</span> : <span class="keyword">this</span>.getDate(),                    <span class="comment">//日  </span></div><div class="line">    <span class="string">"h+"</span> : <span class="keyword">this</span>.getHours(),                   <span class="comment">//小时  </span></div><div class="line">    <span class="string">"m+"</span> : <span class="keyword">this</span>.getMinutes(),                 <span class="comment">//分  </span></div><div class="line">    <span class="string">"s+"</span> : <span class="keyword">this</span>.getSeconds(),                 <span class="comment">//秒  </span></div><div class="line">    <span class="string">"q+"</span> : <span class="built_in">Math</span>.floor((<span class="keyword">this</span>.getMonth()+<span class="number">3</span>)/<span class="number">3</span>), <span class="comment">//季度  </span></div><div class="line">    <span class="string">"S"</span>  : <span class="keyword">this</span>.getMilliseconds()             <span class="comment">//毫秒  </span></div><div class="line">  &#125;;  </div><div class="line">  <span class="keyword">if</span>(<span class="regexp">/(y+)/</span>.test(fmt))  </div><div class="line">    fmt=fmt.replace(<span class="built_in">RegExp</span>.$<span class="number">1</span>, (<span class="keyword">this</span>.getFullYear()+<span class="string">""</span>).substr(<span class="number">4</span> - <span class="built_in">RegExp</span>.$<span class="number">1.</span>length));  </div><div class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> k <span class="keyword">in</span> o)  </div><div class="line">    <span class="keyword">if</span>(<span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"("</span>+ k +<span class="string">")"</span>).test(fmt))  </div><div class="line">  fmt = fmt.replace(<span class="built_in">RegExp</span>.$<span class="number">1</span>, (<span class="built_in">RegExp</span>.$<span class="number">1.</span>length==<span class="number">1</span>) ? (o[k]) : ((<span class="string">"00"</span>+ o[k]).substr((<span class="string">""</span>+ o[k]).length)));  </div><div class="line">  <span class="keyword">return</span> fmt;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>调用方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> time1 = <span class="keyword">new</span> <span class="built_in">Date</span>().format(“yyyy-MM-dd HH:mm:ss”);</div><div class="line"><span class="keyword">var</span> time2 = <span class="keyword">new</span> <span class="built_in">Date</span>().format(“yyyy-MM-dd”);</div></pre></td></tr></table></figure>
+<p>//产生一个六位随机数<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MathRand</span>(<span class="params"></span>)</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">var</span> Num=<span class="string">""</span>;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">6</span>;i++)</div><div class="line">    &#123;</div><div class="line">        Num+=<span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random()*<span class="number">10</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> Num;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/03/06/JS的预编译机制/" itemprop="url">
+                  JS的预编译机制
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-03-06T16:50:15+08:00" content="2015-03-06">
+              2015-03-06
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://images.cnitblog.com/blog2015/728060/201503/061654534611762.png" alt=""><br>1.var定义的是“当前作用域下的一个变量”，当在函数内部不使用var声明时，会被当做全局变量而不是函数内的局部变量（严格模式下还会报错）</p>
+<p>2.js的预编辑：【对定义式函数】直接创建为作用域上的函数变量，并将其值初始化为定义的函数代码逻辑，也就是为其建立了可调用的函数变量。</p>
+<p>3.js的预编辑：【对var定义的变量】 会在开始先全部找出来，并且将初始值设为undefined</p>
+<p>4.【对上面代码的解释】：第一个yourname是undefined:在js开始解析时获得了第一行的yourname声明和函数内部的yourname声明，也就是说在函数内部的局部变量里yourname是被声明过的，然后他们被赋予undefined（等待进一步赋值），然而在函数内部时调用在前赋值在后，所以显示的是undefined；</p>
+<p>5.最后一行仍然是“李战”：js倾向于先在当前作用域中找函数或变量，如果没有的话再到上层去找，以此类推</p>
+<h4 id="最后贴几个很好的例子："><a href="#最后贴几个很好的例子：" class="headerlink" title="最后贴几个很好的例子："></a>最后贴几个很好的例子：</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"> alert(testNum);  </div><div class="line"> <span class="number">2</span>     alert(<span class="string">'ok'</span>);  </div><div class="line"> <span class="number">3</span>     testNum = <span class="number">2</span>;  </div><div class="line"> <span class="number">4</span>     <span class="comment">//testNum未声明，执行报错。  </span></div><div class="line"> <span class="number">5</span>     alert(testNum);  </div><div class="line"> <span class="number">6</span>     alert(<span class="string">'ok'</span>);  </div><div class="line"> <span class="number">7</span>     <span class="keyword">var</span> testNum = <span class="number">2</span>;  </div><div class="line"> <span class="number">8</span>     <span class="comment">//弹出undefined和ok。预编译的时候，声明了变量t；执行到alert(t)这行代码的时候，t尚未被赋值，所以弹出undefined。  </span></div><div class="line"> <span class="number">9</span>     testFunc();  </div><div class="line"><span class="number">10</span>     <span class="function"><span class="keyword">function</span> <span class="title">testFunc</span>(<span class="params"></span>) </span>&#123;&#125;  </div><div class="line"><span class="number">11</span>     alert(<span class="string">'ok'</span>);  </div><div class="line"><span class="number">12</span>     <span class="comment">//弹出ok。预编译的时候，解析了定义式函数语句function testFunc() &#123;&#125;，顺利执行。  </span></div><div class="line"><span class="number">13</span>     testFunc();  </div><div class="line"><span class="number">14</span>     <span class="keyword">var</span> testFunc = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;  </div><div class="line"><span class="number">15</span>     alert(<span class="string">'ok'</span>);  </div><div class="line"><span class="number">16</span>     <span class="comment">//testFunc不是函数，执行报错。预编译的时候，声明了变量testFunc = undefined；执行到testFunc()时，testFunc还等于undefined，不是函数，所以执行testFunc()会报错。  </span></div><div class="line"><span class="number">17</span> </div><div class="line"><span class="number">18</span>  </div><div class="line"><span class="number">19</span> </div><div class="line"><span class="number">20</span>     &lt;\script type=<span class="string">"text/javascript"</span>&gt;  </div><div class="line"><span class="number">21</span>     testFunc();  </div><div class="line"><span class="number">22</span>     alert(<span class="string">'first block'</span>);  </div><div class="line"><span class="number">23</span>     &lt;!--\script--&gt;  </div><div class="line"><span class="number">24</span>     &lt;\script type=<span class="string">"text/javascript"</span>&gt;  </div><div class="line"><span class="number">25</span>     alert(<span class="string">'second block'</span>);  </div><div class="line"><span class="number">26</span>     &lt;!--\script--&gt;  </div><div class="line"><span class="number">27</span>     <span class="comment">//弹出second block。因为JS是一段一段执行的，第一段执行到testFunc()的时候报错，整个第一段都不会再执行，第二段正常执行。</span></div></pre></td></tr></table></figure>
+<h6 id="然后是关于JS预解析"><a href="#然后是关于JS预解析" class="headerlink" title="然后是关于JS预解析"></a>然后是关于JS预解析</h6><p>1.在逐行读js代码前，解析器会先提取所有声明的var变量和函数</p>
+<p>js解析器会先把脚本里所有var变量声明读一遍，但是它只读变量名字，不读变量值，一开始它会赋给所有读到的var变量一个【未定义】的值。而js解析器提取函数是整块提取的读出来，把函数当作整体来看待，也就是说读变量是没值的，读函数是有内容的。这个过程就是js的预解析</p>
+<p>所以在逐行读代码的这一步时，解析器每找到一个var声明，就会去看先前提取的东西中有没有它的值（往往是【未定义】）</p>
+<p>2.var a=0;</p>
+<p>var是声明， a=0是表达式</p>
+<p>如果你只写了a=0时，预解析就不会提取a，那么当后面你要用到a时，解析器去仓库中没有找到a，就会报错，而不是告诉你“a的值是未定义”；</p>
+<p>3.预解析时有一条重要原则，当函数命名冲突了（重名），解析器会【“留下函数，丢掉变量，无关函数声明和变量声明的顺序”】，也就是哪怕先声明的函数a，后声明的变量a，预解析仓库中存的a的值也是函数值而非 未定义（变量的值）。</p>
+<p>4.作用域上的问题</p>
+<p>  （1） 局部变量可以拿到全局变量的值，但是全局变量没法拿到局部变量的值，比如你可以在函数内给一个变量赋全局变量的值，但是你不能在函数外给一个全局变量赋一个函数内声明的变量的值；</p>
+<p>  所以我们要全局变量能拿到局部变量的值的方法就是，先声明一个全局变量，然后【在函数内】，把某个局部变量的值赋给它，就拿到了</p>
+<p>（2）  函数内部形成了一个作用域，但是同样具有大括号的if语句和for语句，它们的大括号内并不形成作用域，在其中声明变量仍然是全局的</p>
+<p>5.一个一直没有注意到的问题</p>
+<p>for(i=0;i&lt;3;i++){alert(i)};  //会弹出0,1,2  没有问题        但是这时的i=3    而不是i=2</p>
+<p>猜测原因，当弹出0这个动作完了之后，i就变成了1。(i++是先执行后增加的),当弹出2后，i就变成了3。    它执行了三遍， ++了三遍，怎么可能i不达到3    只是因为没显示出来而已；</p>
 
           
         
@@ -555,7 +1269,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

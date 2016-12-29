@@ -84,16 +84,31 @@
 
 
 
-<meta name="description" content="moduleVariable= moduleVariable || &amp;#123;&amp;#125;;1234567891011121314151617181920212223242526272829303132333435moduleVariable.planA=(function()&amp;#123;	// define some variable privately , it can only be us">
+<meta name="description" content="去年9月，twitter改版。
+一个显著变化，就是URL加入了”#!”符号。比如，改版前的用户主页网址为
+　　http://twitter.com/username
+改版后，就变成了
+　　http://twitter.com/#!/username
+在我印象中，这是主流网站第一次将”#”大规模用于直接与用户交互的关键URL中。这表明井号（Hash）的作用正在被重新认识。本文根据HttpWatch的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="A simple example about javascript module.">
-<meta property="og:url" content="https://btista.github.io/2016/11/02/11.2/index.html">
+<meta property="og:title" content="locationHash的摘抄（转）">
+<meta property="og:url" content="https://btista.github.io/2015/09/16/locationHash/index.html">
 <meta property="og:site_name" content="Btista">
-<meta property="og:description" content="moduleVariable= moduleVariable || &amp;#123;&amp;#125;;1234567891011121314151617181920212223242526272829303132333435moduleVariable.planA=(function()&amp;#123;	// define some variable privately , it can only be us">
-<meta property="og:updated_time" content="2016-11-02T09:21:31.055Z">
+<meta property="og:description" content="去年9月，twitter改版。
+一个显著变化，就是URL加入了”#!”符号。比如，改版前的用户主页网址为
+　　http://twitter.com/username
+改版后，就变成了
+　　http://twitter.com/#!/username
+在我印象中，这是主流网站第一次将”#”大规模用于直接与用户交互的关键URL中。这表明井号（Hash）的作用正在被重新认识。本文根据HttpWatch的">
+<meta property="og:updated_time" content="2016-12-29T03:01:06.076Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="A simple example about javascript module.">
-<meta name="twitter:description" content="moduleVariable= moduleVariable || &amp;#123;&amp;#125;;1234567891011121314151617181920212223242526272829303132333435moduleVariable.planA=(function()&amp;#123;	// define some variable privately , it can only be us">
+<meta name="twitter:title" content="locationHash的摘抄（转）">
+<meta name="twitter:description" content="去年9月，twitter改版。
+一个显著变化，就是URL加入了”#!”符号。比如，改版前的用户主页网址为
+　　http://twitter.com/username
+改版后，就变成了
+　　http://twitter.com/#!/username
+在我印象中，这是主流网站第一次将”#”大规模用于直接与用户交互的关键URL中。这表明井号（Hash）的作用正在被重新认识。本文根据HttpWatch的">
 
 
 
@@ -114,10 +129,10 @@
 
 
 
-  <link rel="canonical" href="https://btista.github.io/2016/11/02/11.2/"/>
+  <link rel="canonical" href="https://btista.github.io/2015/09/16/locationHash/"/>
 
 
-  <title> A simple example about javascript module. | Btista </title>
+  <title> locationHash的摘抄（转） | Btista </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -247,7 +262,7 @@
             
             
               
-                A simple example about javascript module.
+                locationHash的摘抄（转）
               
             
           </h1>
@@ -259,8 +274,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-11-02T16:48:44+08:00" content="2016-11-02">
-              2016-11-02
+            <time itemprop="dateCreated" datetime="2015-09-16T17:31:21+08:00" content="2015-09-16">
+              2015-09-16
             </time>
           </span>
 
@@ -287,7 +302,63 @@
       
 
       
-        <figure class="highlight plain"><figcaption><span>moduleVariable= moduleVariable || &#123;&#125;;</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">moduleVariable.planA=(function()&#123;</div><div class="line">	// define some variable privately , it can only be used within this function.</div><div class="line">	var someVariable=&#123;</div><div class="line">		a : &apos;a&apos;,</div><div class="line">		b : &apos;b&apos;,</div><div class="line">		c : &apos;c&apos;</div><div class="line">	&#125;;</div><div class="line">	//define a couple of object to include some functions. one for privately , the other one for public.</div><div class="line">	var private = &#123;&#125;;</div><div class="line">	var public = &#123;&#125;;</div><div class="line">	/*this is private method below , due to the object private can only be visited in this function , so the method belong to </div><div class="line">	this object can only be visited in this function*/</div><div class="line">	private.functionA=function()&#123;</div><div class="line">		/*Do something*/</div><div class="line">		console.log(someVariable.a);// it can visite someVariable;</div><div class="line">	&#125;</div><div class="line">	private.functionB=function()&#123;</div><div class="line">		/*Do something else*/</div><div class="line">		console.log(private.functionA);// it can visite private.functionA;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public.init=function()&#123;</div><div class="line">		var a=someVariable.a;</div><div class="line">		private.functionA();</div><div class="line">		private.functionB();//it can visite variables and functions in this function.	</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	return public; //在最后我们返回了public，那么在外部moduleVariable.planA就等于public,moduleVariable.planA可以访问到public的init方法</div><div class="line">				   //但是其他所有的变量，私有方法（private），都没有暴露给外部，只在public的init()方法中可以被使用</div><div class="line">&#125;)();</div><div class="line"></div><div class="line">$(document).ready(function()&#123;</div><div class="line">	moduleVariable.planA.init();//Be invoked here.</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+        <p>去年9月，twitter改版。</p>
+<p>一个显著变化，就是URL加入了”#!”符号。比如，改版前的用户主页网址为</p>
+<p>　　<a href="http://twitter.com/username" target="_blank" rel="external">http://twitter.com/username</a></p>
+<p>改版后，就变成了</p>
+<p>　　<a href="http://twitter.com/#!/username" target="_blank" rel="external">http://twitter.com/#!/username</a></p>
+<p>在我印象中，这是主流网站第一次将”#”大规模用于直接与用户交互的关键URL中。这表明井号（Hash）的作用正在被重新认识。本文根据HttpWatch的文章，整理与井号有关的所有重要知识点。</p>
+<p>一、#的涵义</p>
+<p>代表网页中的一个位置。其右面的字符，就是该位置的标识符。比如，</p>
+<p>　　<a href="http://www.example.com/index.html#print" target="_blank" rel="external">http://www.example.com/index.html#print</a></p>
+<p>就代表网页index.html的print位置。浏览器读取这个URL后，会自动将print位置滚动至可视区域。</p>
+<p>为网页位置指定标识符，有两个方法。一是使用锚点，比如<a name="print"></a>，二是使用id属性，比如<div id="print">。</div></p>
+<p>二、HTTP请求不包括#</p>
+<p>是用来指导浏览器动作的，对服务器端完全无用。所以，HTTP请求中不包括#。</p>
+<p>比如，访问下面的网址，</p>
+<p>　　<a href="http://www.example.com/index.html#print" target="_blank" rel="external">http://www.example.com/index.html#print</a></p>
+<p>浏览器实际发出的请求是这样的：</p>
+<p>　　GET /index.html HTTP/1.1</p>
+<p>　　Host: www.example.com</p>
+<p>可以看到，只是请求index.html，根本没有”#print”的部分。</p>
+<p>三、#后的字符</p>
+<p>在第一个#后面出现的任何字符，都会被浏览器解读为位置标识符。这意味着，这些字符都不会被发送到服务器端。</p>
+<p>比如，下面URL的原意是指定一个颜色值：</p>
+<p>　　<a href="http://www.example.com/?color=#fff" target="_blank" rel="external">http://www.example.com/?color=#fff</a></p>
+<p>但是，浏览器实际发出的请求是：</p>
+<p>　　GET /?color= HTTP/1.1</p>
+<p>　　Host: www.example.com</p>
+<p>可以看到，”#fff”被省略了。只有将#转码为%23，浏览器才会将其作为实义字符处理。也就是说，上面的网址应该被写成：</p>
+<p>　　<a href="http://example.com/?color=%23fff" target="_blank" rel="external">http://example.com/?color=%23fff</a></p>
+<p>四、改变#不触发网页重载</p>
+<p>单单改变#后的部分，浏览器只会滚动到相应位置，不会重新加载网页。</p>
+<p>比如，从</p>
+<p>　　<a href="http://www.example.com/index.html#location1" target="_blank" rel="external">http://www.example.com/index.html#location1</a></p>
+<p>改成</p>
+<p>　　<a href="http://www.example.com/index.html#location2" target="_blank" rel="external">http://www.example.com/index.html#location2</a></p>
+<p>浏览器不会重新向服务器请求index.html。</p>
+<p>五、改变#会改变浏览器的访问历史</p>
+<p>每一次改变#后的部分，都会在浏览器的访问历史中增加一个记录，使用”后退”按钮，就可以回到上一个位置。</p>
+<p>这对于ajax应用程序特别有用，可以用不同的#值，表示不同的访问状态，然后向用户给出可以访问某个状态的链接。</p>
+<p>值得注意的是，上述规则对IE 6和IE 7不成立，它们不会因为#的改变而增加历史记录。</p>
+<p>六、window.location.hash读取#值</p>
+<p>window.location.hash这个属性可读可写。读取时，可以用来判断网页状态是否改变；写入时，则会在不重载网页的前提下，创造一条访问历史记录。</p>
+<p>七、onhashchange事件</p>
+<p>这是一个HTML 5新增的事件，当#值发生变化时，就会触发这个事件。IE8+、Firefox 3.6+、Chrome 5+、Safari 4.0+支持该事件。</p>
+<p>它的使用方法有三种：</p>
+<p>　　window.onhashchange = func;</p>
+<p>　　<body onhashchange="func();"></body></p>
+<p>　　window.addEventListener(“hashchange”, func, false);</p>
+<p>对于不支持onhashchange的浏览器，可以用setInterval监控location.hash的变化。</p>
+<p>八、Google抓取#的机制</p>
+<p>默认情况下，Google的网络蜘蛛忽视URL的#部分。</p>
+<p>但是，Google还规定，如果你希望Ajax生成的内容被浏览引擎读取，那么URL中可以使用”#!”，Google会自动将其后面的内容转成查询字符串_escaped<em>fragment</em>的值。</p>
+<p>比如，Google发现新版twitter的URL如下：</p>
+<p>　　<a href="http://twitter.com/#!/username" target="_blank" rel="external">http://twitter.com/#!/username</a></p>
+<p>就会自动抓取另一个URL：</p>
+<p>　　<a href="http://twitter.com/?_escaped_fragment_=/username" target="_blank" rel="external">http://twitter.com/?_escaped_fragment_=/username</a></p>
+<p>通过这种机制，Google就可以索引动态的Ajax内容。</p>
+
       
     </div>
 
@@ -312,16 +383,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/13/事件冒泡机制和事件委派-以及回调的匿名函数参数/" rel="next" title="事件冒泡机制和事件委派 以及回调的匿名函数参数">
-                <i class="fa fa-chevron-left"></i> 事件冒泡机制和事件委派 以及回调的匿名函数参数
+              <a href="/2015/09/02/javascript-Date-format/" rel="next" title="javascript Date format">
+                <i class="fa fa-chevron-left"></i> javascript Date format
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/12/05/15.5/" rel="prev" title="Javascript中多种模块化的用法及其对比">
-                Javascript中多种模块化的用法及其对比 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/01/04/基础内容回顾/" rel="prev" title="基础内容回顾">
+                基础内容回顾 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

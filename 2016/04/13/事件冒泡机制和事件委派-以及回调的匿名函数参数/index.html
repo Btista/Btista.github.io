@@ -84,16 +84,22 @@
 
 
 
-<meta name="description" content="moduleVariable= moduleVariable || &amp;#123;&amp;#125;;1234567891011121314151617181920212223242526272829303132333435moduleVariable.planA=(function()&amp;#123;	// define some variable privately , it can only be us">
+<meta name="description" content="1.事件冒泡机制：
+事件冒泡机制也就是当一个事件绑定到一个元素上时，如果这个元素不存在或者回调函数返回ture,那么这个事件就会向上冒泡，继续绑定这个元素的父级元素直至document。（如果事件返回return false则不会冒泡）
+阻止冒泡：1.事件return false ; 2.evt.stopPropagation(这个evt指此次事件，写在事件匿名回调函数的参数里)例如： $(‘li">
 <meta property="og:type" content="article">
-<meta property="og:title" content="A simple example about javascript module.">
-<meta property="og:url" content="https://btista.github.io/2016/11/02/11.2/index.html">
+<meta property="og:title" content="事件冒泡机制和事件委派 以及回调的匿名函数参数">
+<meta property="og:url" content="https://btista.github.io/2016/04/13/事件冒泡机制和事件委派-以及回调的匿名函数参数/index.html">
 <meta property="og:site_name" content="Btista">
-<meta property="og:description" content="moduleVariable= moduleVariable || &amp;#123;&amp;#125;;1234567891011121314151617181920212223242526272829303132333435moduleVariable.planA=(function()&amp;#123;	// define some variable privately , it can only be us">
-<meta property="og:updated_time" content="2016-11-02T09:21:31.055Z">
+<meta property="og:description" content="1.事件冒泡机制：
+事件冒泡机制也就是当一个事件绑定到一个元素上时，如果这个元素不存在或者回调函数返回ture,那么这个事件就会向上冒泡，继续绑定这个元素的父级元素直至document。（如果事件返回return false则不会冒泡）
+阻止冒泡：1.事件return false ; 2.evt.stopPropagation(这个evt指此次事件，写在事件匿名回调函数的参数里)例如： $(‘li">
+<meta property="og:updated_time" content="2016-12-29T05:48:39.245Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="A simple example about javascript module.">
-<meta name="twitter:description" content="moduleVariable= moduleVariable || &amp;#123;&amp;#125;;1234567891011121314151617181920212223242526272829303132333435moduleVariable.planA=(function()&amp;#123;	// define some variable privately , it can only be us">
+<meta name="twitter:title" content="事件冒泡机制和事件委派 以及回调的匿名函数参数">
+<meta name="twitter:description" content="1.事件冒泡机制：
+事件冒泡机制也就是当一个事件绑定到一个元素上时，如果这个元素不存在或者回调函数返回ture,那么这个事件就会向上冒泡，继续绑定这个元素的父级元素直至document。（如果事件返回return false则不会冒泡）
+阻止冒泡：1.事件return false ; 2.evt.stopPropagation(这个evt指此次事件，写在事件匿名回调函数的参数里)例如： $(‘li">
 
 
 
@@ -114,10 +120,10 @@
 
 
 
-  <link rel="canonical" href="https://btista.github.io/2016/11/02/11.2/"/>
+  <link rel="canonical" href="https://btista.github.io/2016/04/13/事件冒泡机制和事件委派-以及回调的匿名函数参数/"/>
 
 
-  <title> A simple example about javascript module. | Btista </title>
+  <title> 事件冒泡机制和事件委派 以及回调的匿名函数参数 | Btista </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -247,7 +253,7 @@
             
             
               
-                A simple example about javascript module.
+                事件冒泡机制和事件委派 以及回调的匿名函数参数
               
             
           </h1>
@@ -259,8 +265,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-11-02T16:48:44+08:00" content="2016-11-02">
-              2016-11-02
+            <time itemprop="dateCreated" datetime="2016-04-13T18:40:47+08:00" content="2016-04-13">
+              2016-04-13
             </time>
           </span>
 
@@ -287,7 +293,15 @@
       
 
       
-        <figure class="highlight plain"><figcaption><span>moduleVariable= moduleVariable || &#123;&#125;;</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">moduleVariable.planA=(function()&#123;</div><div class="line">	// define some variable privately , it can only be used within this function.</div><div class="line">	var someVariable=&#123;</div><div class="line">		a : &apos;a&apos;,</div><div class="line">		b : &apos;b&apos;,</div><div class="line">		c : &apos;c&apos;</div><div class="line">	&#125;;</div><div class="line">	//define a couple of object to include some functions. one for privately , the other one for public.</div><div class="line">	var private = &#123;&#125;;</div><div class="line">	var public = &#123;&#125;;</div><div class="line">	/*this is private method below , due to the object private can only be visited in this function , so the method belong to </div><div class="line">	this object can only be visited in this function*/</div><div class="line">	private.functionA=function()&#123;</div><div class="line">		/*Do something*/</div><div class="line">		console.log(someVariable.a);// it can visite someVariable;</div><div class="line">	&#125;</div><div class="line">	private.functionB=function()&#123;</div><div class="line">		/*Do something else*/</div><div class="line">		console.log(private.functionA);// it can visite private.functionA;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public.init=function()&#123;</div><div class="line">		var a=someVariable.a;</div><div class="line">		private.functionA();</div><div class="line">		private.functionB();//it can visite variables and functions in this function.	</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	return public; //在最后我们返回了public，那么在外部moduleVariable.planA就等于public,moduleVariable.planA可以访问到public的init方法</div><div class="line">				   //但是其他所有的变量，私有方法（private），都没有暴露给外部，只在public的init()方法中可以被使用</div><div class="line">&#125;)();</div><div class="line"></div><div class="line">$(document).ready(function()&#123;</div><div class="line">	moduleVariable.planA.init();//Be invoked here.</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+        <p>1.事件冒泡机制：</p>
+<p>事件冒泡机制也就是当一个事件绑定到一个元素上时，如果这个元素不存在或者回调函数返回ture,那么这个事件就会向上冒泡，继续绑定这个元素的父级元素直至document。（如果事件返回return false则不会冒泡）</p>
+<p>阻止冒泡：1.事件return false ; 2.evt.stopPropagation(这个evt指此次事件，写在事件匿名回调函数的参数里)例如： $(‘li’).click(function(evt){evt.stopPropagation()});</p>
+<p>2.事件委托：</p>
+<p>jQuery的on方法和delegate方法都可以给未来出现的元素绑定事件，原理就是利用事件冒泡机制</p>
+<p>on方法和delegate方法会将【事件处理函数】绑定（委托）在需要绑定的元素的父级元素上，当其子元素触发事件时，这个事件会冒泡上来触发父元素身上的【事件处理函数】，而这个过程中会判断这个事件发生的元素是否是子元素，如果不是子元素，就不执行【事件处理函数】；</p>
+<p>具体思路是下面这样：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 获取父节点，并为它添加一个click事件</span></div><div class="line"><span class="built_in">document</span>.getElementById(<span class="string">"parent-list"</span>).addEventListener(<span class="string">"click"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="comment">// 检查事件源e.targe是否为Li</span></div><div class="line">  <span class="keyword">if</span>(e.target &amp;&amp; e.target.nodeName.toUpperCase == <span class="string">"LI"</span>) &#123;</div><div class="line">    <span class="comment">// 真正的处理过程在这里</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"List item "</span>,e.target.id.replace(<span class="string">"post-"</span>),<span class="string">" was clicked!"</span>);</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>e是这个事件，e.target事件发生的元素/事件源；</p>
+
       
     </div>
 
@@ -312,16 +326,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/13/事件冒泡机制和事件委派-以及回调的匿名函数参数/" rel="next" title="事件冒泡机制和事件委派 以及回调的匿名函数参数">
-                <i class="fa fa-chevron-left"></i> 事件冒泡机制和事件委派 以及回调的匿名函数参数
+              <a href="/2016/04/11/You-Don-t-Know-JS-Scope-Closures-翻译/" rel="next" title="You Don't Know JS: Scope & Closures(翻译)">
+                <i class="fa fa-chevron-left"></i> You Don't Know JS: Scope & Closures(翻译)
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/12/05/15.5/" rel="prev" title="Javascript中多种模块化的用法及其对比">
-                Javascript中多种模块化的用法及其对比 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/11/02/11.2/" rel="prev" title="A simple example about javascript module.">
+                A simple example about javascript module. <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

@@ -84,16 +84,25 @@
 
 
 
-<meta name="description" content="moduleVariable= moduleVariable || &amp;#123;&amp;#125;;1234567891011121314151617181920212223242526272829303132333435moduleVariable.planA=(function()&amp;#123;	// define some variable privately , it can only be us">
+<meta name="description" content="1.call()
+call()方法接受两个参数，obj和arg 
+比如functionA.call（obj,arg）   就是说现在运行(执行)functionA这个方法，但是functionA里面的方法不是为它以前的对象而运行了，把functionA的this强行改变成了obj
+obj成为functionA中的this，然后来运行functionA这个方法，而arg是传给functionA的参数">
 <meta property="og:type" content="article">
-<meta property="og:title" content="A simple example about javascript module.">
-<meta property="og:url" content="https://btista.github.io/2016/11/02/11.2/index.html">
+<meta property="og:title" content="call()和原型继承的方法">
+<meta property="og:url" content="https://btista.github.io/2016/01/19/call-和原型继承的方法/index.html">
 <meta property="og:site_name" content="Btista">
-<meta property="og:description" content="moduleVariable= moduleVariable || &amp;#123;&amp;#125;;1234567891011121314151617181920212223242526272829303132333435moduleVariable.planA=(function()&amp;#123;	// define some variable privately , it can only be us">
-<meta property="og:updated_time" content="2016-11-02T09:21:31.055Z">
+<meta property="og:description" content="1.call()
+call()方法接受两个参数，obj和arg 
+比如functionA.call（obj,arg）   就是说现在运行(执行)functionA这个方法，但是functionA里面的方法不是为它以前的对象而运行了，把functionA的this强行改变成了obj
+obj成为functionA中的this，然后来运行functionA这个方法，而arg是传给functionA的参数">
+<meta property="og:updated_time" content="2016-12-29T03:12:11.242Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="A simple example about javascript module.">
-<meta name="twitter:description" content="moduleVariable= moduleVariable || &amp;#123;&amp;#125;;1234567891011121314151617181920212223242526272829303132333435moduleVariable.planA=(function()&amp;#123;	// define some variable privately , it can only be us">
+<meta name="twitter:title" content="call()和原型继承的方法">
+<meta name="twitter:description" content="1.call()
+call()方法接受两个参数，obj和arg 
+比如functionA.call（obj,arg）   就是说现在运行(执行)functionA这个方法，但是functionA里面的方法不是为它以前的对象而运行了，把functionA的this强行改变成了obj
+obj成为functionA中的this，然后来运行functionA这个方法，而arg是传给functionA的参数">
 
 
 
@@ -114,10 +123,10 @@
 
 
 
-  <link rel="canonical" href="https://btista.github.io/2016/11/02/11.2/"/>
+  <link rel="canonical" href="https://btista.github.io/2016/01/19/call-和原型继承的方法/"/>
 
 
-  <title> A simple example about javascript module. | Btista </title>
+  <title> call()和原型继承的方法 | Btista </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -247,7 +256,7 @@
             
             
               
-                A simple example about javascript module.
+                call()和原型继承的方法
               
             
           </h1>
@@ -259,8 +268,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-11-02T16:48:44+08:00" content="2016-11-02">
-              2016-11-02
+            <time itemprop="dateCreated" datetime="2016-01-19T17:53:52+08:00" content="2016-01-19">
+              2016-01-19
             </time>
           </span>
 
@@ -287,7 +296,16 @@
       
 
       
-        <figure class="highlight plain"><figcaption><span>moduleVariable= moduleVariable || &#123;&#125;;</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">moduleVariable.planA=(function()&#123;</div><div class="line">	// define some variable privately , it can only be used within this function.</div><div class="line">	var someVariable=&#123;</div><div class="line">		a : &apos;a&apos;,</div><div class="line">		b : &apos;b&apos;,</div><div class="line">		c : &apos;c&apos;</div><div class="line">	&#125;;</div><div class="line">	//define a couple of object to include some functions. one for privately , the other one for public.</div><div class="line">	var private = &#123;&#125;;</div><div class="line">	var public = &#123;&#125;;</div><div class="line">	/*this is private method below , due to the object private can only be visited in this function , so the method belong to </div><div class="line">	this object can only be visited in this function*/</div><div class="line">	private.functionA=function()&#123;</div><div class="line">		/*Do something*/</div><div class="line">		console.log(someVariable.a);// it can visite someVariable;</div><div class="line">	&#125;</div><div class="line">	private.functionB=function()&#123;</div><div class="line">		/*Do something else*/</div><div class="line">		console.log(private.functionA);// it can visite private.functionA;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public.init=function()&#123;</div><div class="line">		var a=someVariable.a;</div><div class="line">		private.functionA();</div><div class="line">		private.functionB();//it can visite variables and functions in this function.	</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	return public; //在最后我们返回了public，那么在外部moduleVariable.planA就等于public,moduleVariable.planA可以访问到public的init方法</div><div class="line">				   //但是其他所有的变量，私有方法（private），都没有暴露给外部，只在public的init()方法中可以被使用</div><div class="line">&#125;)();</div><div class="line"></div><div class="line">$(document).ready(function()&#123;</div><div class="line">	moduleVariable.planA.init();//Be invoked here.</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+        <p>1.call()</p>
+<p>call()方法接受两个参数，obj和arg </p>
+<p>比如functionA.call（obj,arg）   就是说现在运行(执行)functionA这个方法，但是functionA里面的方法不是为它以前的对象而运行了，把functionA的this强行改变成了obj</p>
+<p>obj成为functionA中的this，然后来运行functionA这个方法，而arg是传给functionA的参数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Student</span>(<span class="params">props</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = props.name || <span class="string">'Unnamed'</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Student.prototype.hello = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    alert(<span class="string">'Hello, '</span> + <span class="keyword">this</span>.name + <span class="string">'!'</span>);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">PrimaryStudent</span>(<span class="params">props</span>) </span>&#123;</div><div class="line">    Student.call(<span class="keyword">this</span>, props);</div><div class="line">    <span class="keyword">this</span>.grade = props.grade || <span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>比如上面的代码，先定义了Student方法，然后定义了PrimaryStudent方法<br>在PrimaryStudent中， Student.call(this, props);指的是把this——也就是PrimaryStudent对象作为Student运行时的那个this，把props传给Student作为参数，来运行Student这个方法，运行出来的结果是什么呢<br>PrimaryStudent.name=props.name //这个props是传进来那个props<br>然后PrimaryStudent.prototype.hello = function () { alert(‘Hello, ‘ + this.name + ‘!’); }   它还获得了一个写在原型里的方法<br>则PrimaryStudent这个函数运行下来的结果相当于<br>function PrimaryStudent(props){<br>this.name = props.name || ‘Unnamed’;<br>this.prototype.hello = function () {<br>    alert(‘Hello, ‘ + this.name + ‘!’);<br>}<br>}<br>  这就是call方法<br>它会运行一个函数，然后告诉这个函数你现在得用我给你的对象来运行你的那套方法，返回出什么东西是什么东西</p>
+<p>2.原型继承</p>
+<p>而原型继承呢<br>一般我们会先定义一个方法  比如刚才的Student<br>Student方法里有属性，有定义在原型里的方法<br>然后我们想继承Student，我们定义出一个新的函数 littleStudent<br>在这个新的函数内部我们  Student.call(this,arg)   在这里this指的是littleStudent，按上面定义的Student函数（内部拿this写属性和方法），我们会获得一个littleStudent它内部有Student的那些属性和方法<br>等于Student在我们littleStudent内部执行了一遍，并且是为我们造属性和方法的，我们littleStudent现在也有这些方法了<br>但这样是继承吗？Student日后有改变，我们的littleStudent会有改变吗，不会<br>因为我们只是拿call让Student给我们也造了一套属性的方法，我们littleStudent的原型仍然指向littleStudent.protptype<br>当前的原型链是职业的  new littleStudent() —-&gt; littleStudent.prototype —-&gt; Object.prototype —-&gt; null   跟Student没有关系<br>需要变成这样  new littleStudent() —-&gt; littleStudent.prototype —-&gt; Student.prototype —-&gt; Object.prototype —-&gt; null<br>那么怎么继承呢</p>
+<p>先创建一个空函数F（）{     }<br>把这个空函数的原型指向Student的原型：F.prototype = Student.prototype;<br>然后把littleStudent的原型指向F的实例：littleStudent.prototype=new F();；   则littleStudent的原型里包含了student原型里的所有内容<br>然后把littleStudent原型的构造函数修复为littleStudent：littleStudent.prototype.constructor = littleStudent;   因为之前littleStudent.prototype=new F()   则new F().constructor指向的是构造函数F<br>然后我们就可以继续在littleStudent对象的原型上添加方法和属性了<br>littleStudent.prototype.getGrade = function () {<br>    return this.grade;<br>};<br>而这并不会影响Student的原型，因为我们在这儿添加方法相当于是在new F()上添加方法<br>至此我们又给littleStudent继承了Student的原型，又可以随意给它扩展，这就完成了一次继承</p>
+
       
     </div>
 
@@ -312,16 +330,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/13/事件冒泡机制和事件委派-以及回调的匿名函数参数/" rel="next" title="事件冒泡机制和事件委派 以及回调的匿名函数参数">
-                <i class="fa fa-chevron-left"></i> 事件冒泡机制和事件委派 以及回调的匿名函数参数
+              <a href="/2016/01/04/基础内容回顾/" rel="next" title="基础内容回顾">
+                <i class="fa fa-chevron-left"></i> 基础内容回顾
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/12/05/15.5/" rel="prev" title="Javascript中多种模块化的用法及其对比">
-                Javascript中多种模块化的用法及其对比 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/04/11/You-Don-t-Know-JS-Scope-Closures-翻译/" rel="prev" title="You Don't Know JS: Scope & Closures(翻译)">
+                You Don't Know JS: Scope & Closures(翻译) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
