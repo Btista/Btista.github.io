@@ -84,27 +84,12 @@
 
 
 
-<meta name="description" content="1.var定义的是“当前作用域下的一个变量”，当在函数内部不使用var声明时，会被当做全局变量而不是函数内的局部变量（严格模式下还会报错）
-2.js的预编辑：【对定义式函数】直接创建为作用域上的函数变量，并将其值初始化为定义的函数代码逻辑，也就是为其建立了可调用的函数变量。
-3.js的预编辑：【对var定义的变量】 会在开始先全部找出来，并且将初始值设为undefined
-4.【对上面代码的解释】">
-<meta property="og:type" content="article">
-<meta property="og:title" content="JS的预编译机制">
-<meta property="og:url" content="https://btista.github.io/2015/03/06/JS的预编译机制/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Btista">
+<meta property="og:url" content="https://btista.github.io/page/2/index.html">
 <meta property="og:site_name" content="Btista">
-<meta property="og:description" content="1.var定义的是“当前作用域下的一个变量”，当在函数内部不使用var声明时，会被当做全局变量而不是函数内的局部变量（严格模式下还会报错）
-2.js的预编辑：【对定义式函数】直接创建为作用域上的函数变量，并将其值初始化为定义的函数代码逻辑，也就是为其建立了可调用的函数变量。
-3.js的预编辑：【对var定义的变量】 会在开始先全部找出来，并且将初始值设为undefined
-4.【对上面代码的解释】">
-<meta property="og:image" content="http://images.cnitblog.com/blog2015/728060/201503/061654534611762.png">
-<meta property="og:updated_time" content="2016-12-29T02:58:17.518Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JS的预编译机制">
-<meta name="twitter:description" content="1.var定义的是“当前作用域下的一个变量”，当在函数内部不使用var声明时，会被当做全局变量而不是函数内的局部变量（严格模式下还会报错）
-2.js的预编辑：【对定义式函数】直接创建为作用域上的函数变量，并将其值初始化为定义的函数代码逻辑，也就是为其建立了可调用的函数变量。
-3.js的预编辑：【对var定义的变量】 会在开始先全部找出来，并且将初始值设为undefined
-4.【对上面代码的解释】">
-<meta name="twitter:image" content="http://images.cnitblog.com/blog2015/728060/201503/061654534611762.png">
+<meta name="twitter:title" content="Btista">
 
 
 
@@ -125,10 +110,10 @@
 
 
 
-  <link rel="canonical" href="https://btista.github.io/2015/03/06/JS的预编译机制/"/>
+  <link rel="canonical" href="https://btista.github.io/page/2/"/>
 
 
-  <title> JS的预编译机制 | Btista </title>
+  <title> Btista </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -149,7 +134,9 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
@@ -236,9 +223,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
   
@@ -258,7 +245,10 @@
             
             
               
-                JS的预编译机制
+                
+                <a class="post-title-link" href="/2015/03/06/JS的预编译机制/" itemprop="url">
+                  JS的预编译机制
+                </a>
               
             
           </h1>
@@ -298,7 +288,9 @@
       
 
       
-        <p><img src="http://images.cnitblog.com/blog2015/728060/201503/061654534611762.png" alt=""><br>1.var定义的是“当前作用域下的一个变量”，当在函数内部不使用var声明时，会被当做全局变量而不是函数内的局部变量（严格模式下还会报错）</p>
+        
+          
+            <p><img src="http://images.cnitblog.com/blog2015/728060/201503/061654534611762.png" alt=""><br>1.var定义的是“当前作用域下的一个变量”，当在函数内部不使用var声明时，会被当做全局变量而不是函数内的局部变量（严格模式下还会报错）</p>
 <p>2.js的预编辑：【对定义式函数】直接创建为作用域上的函数变量，并将其值初始化为定义的函数代码逻辑，也就是为其建立了可调用的函数变量。</p>
 <p>3.js的预编辑：【对var定义的变量】 会在开始先全部找出来，并且将初始值设为undefined</p>
 <p>4.【对上面代码的解释】：第一个yourname是undefined:在js开始解析时获得了第一行的yourname声明和函数内部的yourname声明，也就是说在函数内部的局部变量里yourname是被声明过的，然后他们被赋予undefined（等待进一步赋值），然而在函数内部时调用在前赋值在后，所以显示的是undefined；</p>
@@ -319,20 +311,16 @@
 <p>for(i=0;i&lt;3;i++){alert(i)};  //会弹出0,1,2  没有问题        但是这时的i=3    而不是i=2</p>
 <p>猜测原因，当弹出0这个动作完了之后，i就变成了1。(i++是先执行后增加的),当弹出2后，i就变成了3。    它执行了三遍， ++了三遍，怎么可能i不达到3    只是因为没显示出来而已；</p>
 
+          
+        
       
     </div>
 
     <div>
       
-        
-
-      
     </div>
 
     <div>
-      
-        
-
       
     </div>
 
@@ -340,32 +328,23 @@
       
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/09/02/javascript-Date-format/" rel="prev" title="javascript Date format">
-                javascript Date format <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
 
       
+      
+        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+
 
 
           </div>
@@ -373,10 +352,6 @@
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -396,17 +371,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel ">
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -442,17 +408,6 @@
 
       </section>
 
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#最后贴几个很好的例子："><span class="nav-number">1.</span> <span class="nav-text">最后贴几个很好的例子：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#然后是关于JS预解析"><span class="nav-number">1.0.1.</span> <span class="nav-text">然后是关于JS预解析</span></a></li></ol></li></ol></li></ol></div>
-            
-          </div>
-        </section>
       
 
     </div>
@@ -549,10 +504,6 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
-
-
 
   
 

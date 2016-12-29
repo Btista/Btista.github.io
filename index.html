@@ -441,6 +441,202 @@
             
               
                 
+                <a class="post-title-link" href="/2016/07/07/函数传参引发的一些小问题/" itemprop="url">
+                  函数传参引发的一些小问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-07T14:04:21+08:00" content="2016-07-07">
+              2016-07-07
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p> 一个很简单的问题，自己在试验中还引发了不少别的问题<br>  即当我们把一个全局变量当做变量传给一个函数，并且在这个函数内部处理这个变量的时候，最外层的全局变量的值并不会改变，因为我们处理的是传<br>进来的参数而非全局变量，就像以下的代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">    <span class="keyword">var</span> globalA=<span class="string">'10'</span>;</div><div class="line">    <span class="keyword">var</span> func=&#123;&#125;;</div><div class="line">    (<span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params">globalA</span>)</span>&#123;</div><div class="line">         globalA++;</div><div class="line">         <span class="built_in">console</span>.log(globalA);</div><div class="line"></div><div class="line">         <span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(globalA);</div><div class="line">             <span class="built_in">window</span>.func.B=B;</div><div class="line">&#125;</div><div class="line">    &#125;)(globalA)</div></pre></td></tr></table></figure></p>
+<p>  A函数console出来的globalA和func.B运行console出来的globalA都变了，但是全局函数globalA仍然是10；<br>  因为你在函数内部调用的并不是全局函数globalA，而是函数自己创建的arguments对象<br>引发的第一个问题是 ：我本以为直接把globalA当做参数，就能将外层的值引进来，像这样：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> globalA=<span class="string">'10'</span>;</div><div class="line"><span class="keyword">var</span> func=&#123;&#125;;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params">globalA</span>)</span>&#123;</div><div class="line">	globalA++;</div><div class="line">	<span class="built_in">console</span>.log(globalA);</div><div class="line">	</div><div class="line">	 <span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		       <span class="built_in">console</span>.log(globalA);</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">window</span>.func.B=B;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>  结果当然是可笑的，参数globalA和全局函数globalA一点关系都没有，这也印证了我们最初学js时书上讲函数创建时，函数的参数会被声明为一个<br>arguments对象，类似于数组。那么我们的参数就只是声明的一个对象而已，跟外界的变量并无关系，而将全局函数传给这个函数，只是给arguments[0]<br>赋值，即我们在处理arguments[0]，当然不会影响全局边框globalA。</p>
+<p>  引发的第二个问题是当在函数内部返回function B而不是声明它时，window.func.B=B这一暴露B给全局变量的做法就失效了，因为执行这行代码<br>时B还没声明呢。即：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> globalA=<span class="string">'10'</span>;</div><div class="line"><span class="keyword">var</span> func=&#123;&#125;;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params">globalA</span>)</span>&#123;</div><div class="line">	globalA++;</div><div class="line">	<span class="built_in">console</span>.log(globalA);</div><div class="line">	</div><div class="line">	 <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		       <span class="built_in">console</span>.log(globalA);</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">window</span>.func.B=B; <span class="comment">//B还未声明，暴露失败</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>  这本身没声明，但是我又想到了这个：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> funcs = [];</div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</div><div class="line">    funcs[i] = (<span class="function"><span class="keyword">function</span>(<span class="params">index</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"My value: "</span> + index);</div><div class="line">        &#125;;</div><div class="line">    &#125;(i));</div><div class="line">&#125;</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; <span class="number">3</span>; j++) &#123;</div><div class="line">    funcs[j]();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>  这个闭包结构，按我们上面的说法，在for循环做完时return后面跟的那3个匿名函数都是没有声明的，只是作为返回值赋给了funcs数组的三个坑，<br>则他们真正声明的时候是funcs<a href="">j</a>;一声明就执行<br>  于是我在想，他们声明的位置变了，却仍然能用闭包的特性保留住哪个特殊作用域的i值，这不是跟闭包的词法作用域相悖吗<br>  但是后来又想想，既然函数被调用时，内部能调到的的作用域只和他们的词法作用域有关，那么词法作用域应该是指更严格的“函数写在哪儿”，哪怕<br>他们虽然写在那儿但是他们并没有在那儿声明呢<br>  不过也可能是我理解错了，所以先记在这里吧</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/14/An-overview-of-the-OPP/" itemprop="url">
+                  An overview of the OPP
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-14T14:00:34+08:00" content="2016-06-14">
+              2016-06-14
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.JavaScript语言的对象体系，不是基于“类”的，而是基于构造函数（constructor）和原型链（prototype）</p>
+<p>2.new命令的作用，就是[执行]构造函数，返回一个实例对象.new命令本身就可以执行构造函数，所以后面的构造函数可以带括号，也可以不带括号。<br>3.new命令的内部原理：执行new命令后，先创建一个空的上下文对象，然后赋值给构造函数中的this，在new命令执行完毕后，如果构造函数中return了<br>一个对象，new命令就会返回return语句指定的对象（如果return了一个无关的对象，那new命令也会返回这个对象），如果return语句返回的不是对象或者<br>没有return语句，那么new命令就会返回this对象（即构造后的上下文对象）。</p>
+<p>4.instanceof<br>4.1 instanceof运算符返回一个布尔值，用于判断运算符左边的实例对象是否由运算符右边的构造函数所创建<br>4.2 在javascript中，所有的对象都有对应的构造函数（constructor），所以instanceof运算符可以用来判断值的类型<br> [1,2,3] instanceof Array  //true<br>4.3  instanceof只能用于对象<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str=<span class="string">'hahaha'</span>;</div><div class="line">str <span class="keyword">instanceof</span> <span class="built_in">String</span>; <span class="comment">//false  cause this is a string type,not object</span></div><div class="line"><span class="keyword">var</span> str=<span class="keyword">new</span> <span class="built_in">String</span>();</div><div class="line">str <span class="keyword">instanceof</span> <span class="built_in">String</span>; <span class="comment">//true   cause 'new String' generate a object type</span></div></pre></td></tr></table></figure></p>
+<p>5.this<br>  this指向函数运行时，函数所处的对象（调用该函数的对象）<br>  直接在全局环境调用的话，this指的就是window对象<br>  如果是a.b()这样的调用，那b方法中的this自然就是指a对象<br>  $(selector).click(function(){console.log(this)})  这样的调用，this指的就是selector被$化后的jQuery对象<br>  在Node.js中，this的指向又分成两种情况。全局环境中，this指向全局对象global；模块环境中，this指向module.exports。<br>6.call apply方法<br>  “函数的call方法，可以指定该函数内部this的指向（即函数执行时所在的作用域），然后在所指定的作用域中，调用该函数。”<br>  在我的理解中，一共有两点：第一是【call别的对象的方法】（如下面的Object.prototype.hasOwnProperty）内部的this都会指向obj<br> 第二是把【call别的对象的方法】（如下面的Object.prototype.hasOwnProperty）视作一个整体，让obj去调用这个方法<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.prototype.hasOwnProperty.call(obj, <span class="string">'toString'</span>) <span class="comment">// false</span></div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/04/13/事件冒泡机制和事件委派-以及回调的匿名函数参数/" itemprop="url">
                   事件冒泡机制和事件委派 以及回调的匿名函数参数
                 </a>
@@ -1115,122 +1311,13 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/03/06/JS的预编译机制/" itemprop="url">
-                  JS的预编译机制
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-03-06T16:50:15+08:00" content="2015-03-06">
-              2015-03-06
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://images.cnitblog.com/blog2015/728060/201503/061654534611762.png" alt=""><br>1.var定义的是“当前作用域下的一个变量”，当在函数内部不使用var声明时，会被当做全局变量而不是函数内的局部变量（严格模式下还会报错）</p>
-<p>2.js的预编辑：【对定义式函数】直接创建为作用域上的函数变量，并将其值初始化为定义的函数代码逻辑，也就是为其建立了可调用的函数变量。</p>
-<p>3.js的预编辑：【对var定义的变量】 会在开始先全部找出来，并且将初始值设为undefined</p>
-<p>4.【对上面代码的解释】：第一个yourname是undefined:在js开始解析时获得了第一行的yourname声明和函数内部的yourname声明，也就是说在函数内部的局部变量里yourname是被声明过的，然后他们被赋予undefined（等待进一步赋值），然而在函数内部时调用在前赋值在后，所以显示的是undefined；</p>
-<p>5.最后一行仍然是“李战”：js倾向于先在当前作用域中找函数或变量，如果没有的话再到上层去找，以此类推</p>
-<h4 id="最后贴几个很好的例子："><a href="#最后贴几个很好的例子：" class="headerlink" title="最后贴几个很好的例子："></a>最后贴几个很好的例子：</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"> alert(testNum);  </div><div class="line"> <span class="number">2</span>     alert(<span class="string">'ok'</span>);  </div><div class="line"> <span class="number">3</span>     testNum = <span class="number">2</span>;  </div><div class="line"> <span class="number">4</span>     <span class="comment">//testNum未声明，执行报错。  </span></div><div class="line"> <span class="number">5</span>     alert(testNum);  </div><div class="line"> <span class="number">6</span>     alert(<span class="string">'ok'</span>);  </div><div class="line"> <span class="number">7</span>     <span class="keyword">var</span> testNum = <span class="number">2</span>;  </div><div class="line"> <span class="number">8</span>     <span class="comment">//弹出undefined和ok。预编译的时候，声明了变量t；执行到alert(t)这行代码的时候，t尚未被赋值，所以弹出undefined。  </span></div><div class="line"> <span class="number">9</span>     testFunc();  </div><div class="line"><span class="number">10</span>     <span class="function"><span class="keyword">function</span> <span class="title">testFunc</span>(<span class="params"></span>) </span>&#123;&#125;  </div><div class="line"><span class="number">11</span>     alert(<span class="string">'ok'</span>);  </div><div class="line"><span class="number">12</span>     <span class="comment">//弹出ok。预编译的时候，解析了定义式函数语句function testFunc() &#123;&#125;，顺利执行。  </span></div><div class="line"><span class="number">13</span>     testFunc();  </div><div class="line"><span class="number">14</span>     <span class="keyword">var</span> testFunc = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;  </div><div class="line"><span class="number">15</span>     alert(<span class="string">'ok'</span>);  </div><div class="line"><span class="number">16</span>     <span class="comment">//testFunc不是函数，执行报错。预编译的时候，声明了变量testFunc = undefined；执行到testFunc()时，testFunc还等于undefined，不是函数，所以执行testFunc()会报错。  </span></div><div class="line"><span class="number">17</span> </div><div class="line"><span class="number">18</span>  </div><div class="line"><span class="number">19</span> </div><div class="line"><span class="number">20</span>     &lt;\script type=<span class="string">"text/javascript"</span>&gt;  </div><div class="line"><span class="number">21</span>     testFunc();  </div><div class="line"><span class="number">22</span>     alert(<span class="string">'first block'</span>);  </div><div class="line"><span class="number">23</span>     &lt;!--\script--&gt;  </div><div class="line"><span class="number">24</span>     &lt;\script type=<span class="string">"text/javascript"</span>&gt;  </div><div class="line"><span class="number">25</span>     alert(<span class="string">'second block'</span>);  </div><div class="line"><span class="number">26</span>     &lt;!--\script--&gt;  </div><div class="line"><span class="number">27</span>     <span class="comment">//弹出second block。因为JS是一段一段执行的，第一段执行到testFunc()的时候报错，整个第一段都不会再执行，第二段正常执行。</span></div></pre></td></tr></table></figure>
-<h6 id="然后是关于JS预解析"><a href="#然后是关于JS预解析" class="headerlink" title="然后是关于JS预解析"></a>然后是关于JS预解析</h6><p>1.在逐行读js代码前，解析器会先提取所有声明的var变量和函数</p>
-<p>js解析器会先把脚本里所有var变量声明读一遍，但是它只读变量名字，不读变量值，一开始它会赋给所有读到的var变量一个【未定义】的值。而js解析器提取函数是整块提取的读出来，把函数当作整体来看待，也就是说读变量是没值的，读函数是有内容的。这个过程就是js的预解析</p>
-<p>所以在逐行读代码的这一步时，解析器每找到一个var声明，就会去看先前提取的东西中有没有它的值（往往是【未定义】）</p>
-<p>2.var a=0;</p>
-<p>var是声明， a=0是表达式</p>
-<p>如果你只写了a=0时，预解析就不会提取a，那么当后面你要用到a时，解析器去仓库中没有找到a，就会报错，而不是告诉你“a的值是未定义”；</p>
-<p>3.预解析时有一条重要原则，当函数命名冲突了（重名），解析器会【“留下函数，丢掉变量，无关函数声明和变量声明的顺序”】，也就是哪怕先声明的函数a，后声明的变量a，预解析仓库中存的a的值也是函数值而非 未定义（变量的值）。</p>
-<p>4.作用域上的问题</p>
-<p>  （1） 局部变量可以拿到全局变量的值，但是全局变量没法拿到局部变量的值，比如你可以在函数内给一个变量赋全局变量的值，但是你不能在函数外给一个全局变量赋一个函数内声明的变量的值；</p>
-<p>  所以我们要全局变量能拿到局部变量的值的方法就是，先声明一个全局变量，然后【在函数内】，把某个局部变量的值赋给它，就拿到了</p>
-<p>（2）  函数内部形成了一个作用域，但是同样具有大括号的if语句和for语句，它们的大括号内并不形成作用域，在其中声明变量仍然是全局的</p>
-<p>5.一个一直没有注意到的问题</p>
-<p>for(i=0;i&lt;3;i++){alert(i)};  //会弹出0,1,2  没有问题        但是这时的i=3    而不是i=2</p>
-<p>猜测原因，当弹出0这个动作完了之后，i就变成了1。(i++是先执行后增加的),当弹出2后，i就变成了3。    它执行了三遍， ++了三遍，怎么可能i不达到3    只是因为没显示出来而已；</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1269,7 +1356,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

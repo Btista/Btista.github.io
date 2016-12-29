@@ -84,25 +84,19 @@
 
 
 
-<meta name="description" content="1.call()
-call()方法接受两个参数，obj和arg 
-比如functionA.call（obj,arg）   就是说现在运行(执行)functionA这个方法，但是functionA里面的方法不是为它以前的对象而运行了，把functionA的this强行改变成了obj
-obj成为functionA中的this，然后来运行functionA这个方法，而arg是传给functionA的参数">
+<meta name="description" content="1.JavaScript语言的对象体系，不是基于“类”的，而是基于构造函数（constructor）和原型链（prototype）
+2.new命令的作用，就是[执行]构造函数，返回一个实例对象.new命令本身就可以执行构造函数，所以后面的构造函数可以带括号，也可以不带括号。3.new命令的内部原理：执行new命令后，先创建一个空的上下文对象，然后赋值给构造函数中的this，在new命令执行完毕后，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="call()和原型继承的方法">
-<meta property="og:url" content="https://btista.github.io/2016/01/19/call-和原型继承的方法/index.html">
+<meta property="og:title" content="An overview of the OPP">
+<meta property="og:url" content="https://btista.github.io/2016/06/14/An-overview-of-the-OPP/index.html">
 <meta property="og:site_name" content="Btista">
-<meta property="og:description" content="1.call()
-call()方法接受两个参数，obj和arg 
-比如functionA.call（obj,arg）   就是说现在运行(执行)functionA这个方法，但是functionA里面的方法不是为它以前的对象而运行了，把functionA的this强行改变成了obj
-obj成为functionA中的this，然后来运行functionA这个方法，而arg是传给functionA的参数">
-<meta property="og:updated_time" content="2016-12-29T03:12:11.242Z">
+<meta property="og:description" content="1.JavaScript语言的对象体系，不是基于“类”的，而是基于构造函数（constructor）和原型链（prototype）
+2.new命令的作用，就是[执行]构造函数，返回一个实例对象.new命令本身就可以执行构造函数，所以后面的构造函数可以带括号，也可以不带括号。3.new命令的内部原理：执行new命令后，先创建一个空的上下文对象，然后赋值给构造函数中的this，在new命令执行完毕后，">
+<meta property="og:updated_time" content="2016-12-29T06:03:40.828Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="call()和原型继承的方法">
-<meta name="twitter:description" content="1.call()
-call()方法接受两个参数，obj和arg 
-比如functionA.call（obj,arg）   就是说现在运行(执行)functionA这个方法，但是functionA里面的方法不是为它以前的对象而运行了，把functionA的this强行改变成了obj
-obj成为functionA中的this，然后来运行functionA这个方法，而arg是传给functionA的参数">
+<meta name="twitter:title" content="An overview of the OPP">
+<meta name="twitter:description" content="1.JavaScript语言的对象体系，不是基于“类”的，而是基于构造函数（constructor）和原型链（prototype）
+2.new命令的作用，就是[执行]构造函数，返回一个实例对象.new命令本身就可以执行构造函数，所以后面的构造函数可以带括号，也可以不带括号。3.new命令的内部原理：执行new命令后，先创建一个空的上下文对象，然后赋值给构造函数中的this，在new命令执行完毕后，">
 
 
 
@@ -123,10 +117,10 @@ obj成为functionA中的this，然后来运行functionA这个方法，而arg是�
 
 
 
-  <link rel="canonical" href="https://btista.github.io/2016/01/19/call-和原型继承的方法/"/>
+  <link rel="canonical" href="https://btista.github.io/2016/06/14/An-overview-of-the-OPP/"/>
 
 
-  <title> call()和原型继承的方法 | Btista </title>
+  <title> An overview of the OPP | Btista </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -256,7 +250,7 @@ obj成为functionA中的this，然后来运行functionA这个方法，而arg是�
             
             
               
-                call()和原型继承的方法
+                An overview of the OPP
               
             
           </h1>
@@ -268,8 +262,8 @@ obj成为functionA中的this，然后来运行functionA这个方法，而arg是�
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-19T17:53:52+08:00" content="2016-01-19">
-              2016-01-19
+            <time itemprop="dateCreated" datetime="2016-06-14T14:00:34+08:00" content="2016-06-14">
+              2016-06-14
             </time>
           </span>
 
@@ -296,15 +290,10 @@ obj成为functionA中的this，然后来运行functionA这个方法，而arg是�
       
 
       
-        <p>1.call()</p>
-<p>call()方法接受两个参数，obj和arg </p>
-<p>比如functionA.call（obj,arg）   就是说现在运行(执行)functionA这个方法，但是functionA里面的方法不是为它以前的对象而运行了，把functionA的this强行改变成了obj</p>
-<p>obj成为functionA中的this，然后来运行functionA这个方法，而arg是传给functionA的参数</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Student</span>(<span class="params">props</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = props.name || <span class="string">'Unnamed'</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Student.prototype.hello = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    alert(<span class="string">'Hello, '</span> + <span class="keyword">this</span>.name + <span class="string">'!'</span>);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">PrimaryStudent</span>(<span class="params">props</span>) </span>&#123;</div><div class="line">    Student.call(<span class="keyword">this</span>, props);</div><div class="line">    <span class="keyword">this</span>.grade = props.grade || <span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>比如上面的代码，先定义了Student方法，然后定义了PrimaryStudent方法<br>在PrimaryStudent中， Student.call(this, props);指的是把this——也就是PrimaryStudent对象作为Student运行时的那个this，把props传给Student作为参数，来运行Student这个方法，运行出来的结果是什么呢<br>PrimaryStudent.name=props.name //这个props是传进来那个props<br>然后PrimaryStudent.prototype.hello = function () { alert(‘Hello, ‘ + this.name + ‘!’); }   它还获得了一个写在原型里的方法<br>则PrimaryStudent这个函数运行下来的结果相当于<br>function PrimaryStudent(props){<br>this.name = props.name || ‘Unnamed’;<br>this.prototype.hello = function () {<br>    alert(‘Hello, ‘ + this.name + ‘!’);<br>}<br>}<br>  这就是call方法<br>它会运行一个函数，然后告诉这个函数你现在得用我给你的对象来运行你的那套方法，返回出什么东西是什么东西</p>
-<p>2.原型继承</p>
-<p>而原型继承呢<br>一般我们会先定义一个方法  比如刚才的Student<br>Student方法里有属性，有定义在原型里的方法<br>然后我们想继承Student，我们定义出一个新的函数 littleStudent<br>在这个新的函数内部我们  Student.call(this,arg)   在这里this指的是littleStudent，按上面定义的Student函数（内部拿this写属性和方法），我们会获得一个littleStudent它内部有Student的那些属性和方法<br>等于Student在我们littleStudent内部执行了一遍，并且是为我们造属性和方法的，我们littleStudent现在也有这些方法了<br>但这样是继承吗？Student日后有改变，我们的littleStudent会有改变吗，不会<br>因为我们只是拿call让Student给我们也造了一套属性的方法，我们littleStudent的原型仍然指向littleStudent.protptype<br>当前的原型链是职业的  new littleStudent() —-&gt; littleStudent.prototype —-&gt; Object.prototype —-&gt; null   跟Student没有关系<br>需要变成这样  new littleStudent() —-&gt; littleStudent.prototype —-&gt; Student.prototype —-&gt; Object.prototype —-&gt; null<br>那么怎么继承呢</p>
-<p>先创建一个空函数F（）{     }<br>把这个空函数的原型指向Student的原型：F.prototype = Student.prototype;<br>然后把littleStudent的原型指向F的实例：littleStudent.prototype=new F();；   则littleStudent的原型里包含了student原型里的所有内容<br>然后把littleStudent原型的构造函数修复为littleStudent：littleStudent.prototype.constructor = littleStudent;   因为之前littleStudent.prototype=new F()   则new F().constructor指向的是构造函数F<br>然后我们就可以继续在littleStudent对象的原型上添加方法和属性了<br>littleStudent.prototype.getGrade = function () {<br>    return this.grade;<br>};<br>而这并不会影响Student的原型，因为我们在这儿添加方法相当于是在new F()上添加方法<br>至此我们又给littleStudent继承了Student的原型，又可以随意给它扩展，这就完成了一次继承</p>
+        <p>1.JavaScript语言的对象体系，不是基于“类”的，而是基于构造函数（constructor）和原型链（prototype）</p>
+<p>2.new命令的作用，就是[执行]构造函数，返回一个实例对象.new命令本身就可以执行构造函数，所以后面的构造函数可以带括号，也可以不带括号。<br>3.new命令的内部原理：执行new命令后，先创建一个空的上下文对象，然后赋值给构造函数中的this，在new命令执行完毕后，如果构造函数中return了<br>一个对象，new命令就会返回return语句指定的对象（如果return了一个无关的对象，那new命令也会返回这个对象），如果return语句返回的不是对象或者<br>没有return语句，那么new命令就会返回this对象（即构造后的上下文对象）。</p>
+<p>4.instanceof<br>4.1 instanceof运算符返回一个布尔值，用于判断运算符左边的实例对象是否由运算符右边的构造函数所创建<br>4.2 在javascript中，所有的对象都有对应的构造函数（constructor），所以instanceof运算符可以用来判断值的类型<br> [1,2,3] instanceof Array  //true<br>4.3  instanceof只能用于对象<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str=<span class="string">'hahaha'</span>;</div><div class="line">str <span class="keyword">instanceof</span> <span class="built_in">String</span>; <span class="comment">//false  cause this is a string type,not object</span></div><div class="line"><span class="keyword">var</span> str=<span class="keyword">new</span> <span class="built_in">String</span>();</div><div class="line">str <span class="keyword">instanceof</span> <span class="built_in">String</span>; <span class="comment">//true   cause 'new String' generate a object type</span></div></pre></td></tr></table></figure></p>
+<p>5.this<br>  this指向函数运行时，函数所处的对象（调用该函数的对象）<br>  直接在全局环境调用的话，this指的就是window对象<br>  如果是a.b()这样的调用，那b方法中的this自然就是指a对象<br>  $(selector).click(function(){console.log(this)})  这样的调用，this指的就是selector被$化后的jQuery对象<br>  在Node.js中，this的指向又分成两种情况。全局环境中，this指向全局对象global；模块环境中，this指向module.exports。<br>6.call apply方法<br>  “函数的call方法，可以指定该函数内部this的指向（即函数执行时所在的作用域），然后在所指定的作用域中，调用该函数。”<br>  在我的理解中，一共有两点：第一是【call别的对象的方法】（如下面的Object.prototype.hasOwnProperty）内部的this都会指向obj<br> 第二是把【call别的对象的方法】（如下面的Object.prototype.hasOwnProperty）视作一个整体，让obj去调用这个方法<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.prototype.hasOwnProperty.call(obj, <span class="string">'toString'</span>) <span class="comment">// false</span></div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -330,16 +319,16 @@ obj成为functionA中的this，然后来运行functionA这个方法，而arg是�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/01/04/基础内容回顾/" rel="next" title="基础内容回顾">
-                <i class="fa fa-chevron-left"></i> 基础内容回顾
+              <a href="/2016/04/13/事件冒泡机制和事件委派-以及回调的匿名函数参数/" rel="next" title="事件冒泡机制和事件委派 以及回调的匿名函数参数">
+                <i class="fa fa-chevron-left"></i> 事件冒泡机制和事件委派 以及回调的匿名函数参数
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/04/11/You-Don-t-Know-JS-Scope-Closures-翻译/" rel="prev" title="You Don't Know JS: Scope & Closures(翻译)">
-                You Don't Know JS: Scope & Closures(翻译) <i class="fa fa-chevron-right"></i>
+              <a href="/2016/07/07/函数传参引发的一些小问题/" rel="prev" title="函数传参引发的一些小问题">
+                函数传参引发的一些小问题 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
