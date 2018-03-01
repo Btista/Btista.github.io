@@ -246,6 +246,252 @@
             
               
                 
+                <a class="post-title-link" href="/2015/09/16/locationHash/" itemprop="url">
+                  locationHash的摘抄（转）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-09-16T17:31:21+08:00" content="2015-09-16">
+              2015-09-16
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>去年9月，twitter改版。</p>
+<p>一个显著变化，就是URL加入了”#!”符号。比如，改版前的用户主页网址为</p>
+<p>　　<a href="http://twitter.com/username" target="_blank" rel="external">http://twitter.com/username</a></p>
+<p>改版后，就变成了</p>
+<p>　　<a href="http://twitter.com/#!/username" target="_blank" rel="external">http://twitter.com/#!/username</a></p>
+<p>在我印象中，这是主流网站第一次将”#”大规模用于直接与用户交互的关键URL中。这表明井号（Hash）的作用正在被重新认识。本文根据HttpWatch的文章，整理与井号有关的所有重要知识点。</p>
+<p>一、#的涵义</p>
+<p>代表网页中的一个位置。其右面的字符，就是该位置的标识符。比如，</p>
+<p>　　<a href="http://www.example.com/index.html#print" target="_blank" rel="external">http://www.example.com/index.html#print</a></p>
+<p>就代表网页index.html的print位置。浏览器读取这个URL后，会自动将print位置滚动至可视区域。</p>
+<p>为网页位置指定标识符，有两个方法。一是使用锚点，比如<a name="print"></a>，二是使用id属性，比如<div id="print">。</div></p>
+<p>二、HTTP请求不包括#</p>
+<p>是用来指导浏览器动作的，对服务器端完全无用。所以，HTTP请求中不包括#。</p>
+<p>比如，访问下面的网址，</p>
+<p>　　<a href="http://www.example.com/index.html#print" target="_blank" rel="external">http://www.example.com/index.html#print</a></p>
+<p>浏览器实际发出的请求是这样的：</p>
+<p>　　GET /index.html HTTP/1.1</p>
+<p>　　Host: www.example.com</p>
+<p>可以看到，只是请求index.html，根本没有”#print”的部分。</p>
+<p>三、#后的字符</p>
+<p>在第一个#后面出现的任何字符，都会被浏览器解读为位置标识符。这意味着，这些字符都不会被发送到服务器端。</p>
+<p>比如，下面URL的原意是指定一个颜色值：</p>
+<p>　　<a href="http://www.example.com/?color=#fff" target="_blank" rel="external">http://www.example.com/?color=#fff</a></p>
+<p>但是，浏览器实际发出的请求是：</p>
+<p>　　GET /?color= HTTP/1.1</p>
+<p>　　Host: www.example.com</p>
+<p>可以看到，”#fff”被省略了。只有将#转码为%23，浏览器才会将其作为实义字符处理。也就是说，上面的网址应该被写成：</p>
+<p>　　<a href="http://example.com/?color=%23fff" target="_blank" rel="external">http://example.com/?color=%23fff</a></p>
+<p>四、改变#不触发网页重载</p>
+<p>单单改变#后的部分，浏览器只会滚动到相应位置，不会重新加载网页。</p>
+<p>比如，从</p>
+<p>　　<a href="http://www.example.com/index.html#location1" target="_blank" rel="external">http://www.example.com/index.html#location1</a></p>
+<p>改成</p>
+<p>　　<a href="http://www.example.com/index.html#location2" target="_blank" rel="external">http://www.example.com/index.html#location2</a></p>
+<p>浏览器不会重新向服务器请求index.html。</p>
+<p>五、改变#会改变浏览器的访问历史</p>
+<p>每一次改变#后的部分，都会在浏览器的访问历史中增加一个记录，使用”后退”按钮，就可以回到上一个位置。</p>
+<p>这对于ajax应用程序特别有用，可以用不同的#值，表示不同的访问状态，然后向用户给出可以访问某个状态的链接。</p>
+<p>值得注意的是，上述规则对IE 6和IE 7不成立，它们不会因为#的改变而增加历史记录。</p>
+<p>六、window.location.hash读取#值</p>
+<p>window.location.hash这个属性可读可写。读取时，可以用来判断网页状态是否改变；写入时，则会在不重载网页的前提下，创造一条访问历史记录。</p>
+<p>七、onhashchange事件</p>
+<p>这是一个HTML 5新增的事件，当#值发生变化时，就会触发这个事件。IE8+、Firefox 3.6+、Chrome 5+、Safari 4.0+支持该事件。</p>
+<p>它的使用方法有三种：</p>
+<p>　　window.onhashchange = func;</p>
+<p>　　<body onhashchange="func();"></body></p>
+<p>　　window.addEventListener(“hashchange”, func, false);</p>
+<p>对于不支持onhashchange的浏览器，可以用setInterval监控location.hash的变化。</p>
+<p>八、Google抓取#的机制</p>
+<p>默认情况下，Google的网络蜘蛛忽视URL的#部分。</p>
+<p>但是，Google还规定，如果你希望Ajax生成的内容被浏览引擎读取，那么URL中可以使用”#!”，Google会自动将其后面的内容转成查询字符串_escaped<em>fragment</em>的值。</p>
+<p>比如，Google发现新版twitter的URL如下：</p>
+<p>　　<a href="http://twitter.com/#!/username" target="_blank" rel="external">http://twitter.com/#!/username</a></p>
+<p>就会自动抓取另一个URL：</p>
+<p>　　<a href="http://twitter.com/?_escaped_fragment_=/username" target="_blank" rel="external">http://twitter.com/?_escaped_fragment_=/username</a></p>
+<p>通过这种机制，Google就可以索引动态的Ajax内容。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/09/02/javascript-Date-format/" itemprop="url">
+                  javascript Date format
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-09-02T16:19:00+08:00" content="2015-09-02">
+              2015-09-02
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h6 id="来自CSDN的Meizz"><a href="#来自CSDN的Meizz" class="headerlink" title="来自CSDN的Meizz"></a>来自CSDN的Meizz</h6><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">/ 对<span class="built_in">Date</span>的扩展，将 <span class="built_in">Date</span> 转化为指定格式的<span class="built_in">String</span>  </div><div class="line"><span class="comment">// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，  </span></div><div class="line"><span class="comment">// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)  </span></div><div class="line"><span class="comment">// 例子：  </span></div><div class="line"><span class="comment">// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==&gt; 2006-07-02 08:09:04.423  </span></div><div class="line"><span class="comment">// (new Date()).Format("yyyy-M-d h:m:s.S")      ==&gt; 2006-7-2 8:9:4.18  </span></div><div class="line"><span class="built_in">Date</span>.prototype.Format = <span class="function"><span class="keyword">function</span>(<span class="params">fmt</span>)  </span></div><div class="line">&#123; <span class="comment">//author: meizz  </span></div><div class="line">  <span class="keyword">var</span> o = &#123;  </div><div class="line">    <span class="string">"M+"</span> : <span class="keyword">this</span>.getMonth()+<span class="number">1</span>,                 <span class="comment">//月份  </span></div><div class="line">    <span class="string">"d+"</span> : <span class="keyword">this</span>.getDate(),                    <span class="comment">//日  </span></div><div class="line">    <span class="string">"h+"</span> : <span class="keyword">this</span>.getHours(),                   <span class="comment">//小时  </span></div><div class="line">    <span class="string">"m+"</span> : <span class="keyword">this</span>.getMinutes(),                 <span class="comment">//分  </span></div><div class="line">    <span class="string">"s+"</span> : <span class="keyword">this</span>.getSeconds(),                 <span class="comment">//秒  </span></div><div class="line">    <span class="string">"q+"</span> : <span class="built_in">Math</span>.floor((<span class="keyword">this</span>.getMonth()+<span class="number">3</span>)/<span class="number">3</span>), <span class="comment">//季度  </span></div><div class="line">    <span class="string">"S"</span>  : <span class="keyword">this</span>.getMilliseconds()             <span class="comment">//毫秒  </span></div><div class="line">  &#125;;  </div><div class="line">  <span class="keyword">if</span>(<span class="regexp">/(y+)/</span>.test(fmt))  </div><div class="line">    fmt=fmt.replace(<span class="built_in">RegExp</span>.$<span class="number">1</span>, (<span class="keyword">this</span>.getFullYear()+<span class="string">""</span>).substr(<span class="number">4</span> - <span class="built_in">RegExp</span>.$<span class="number">1.</span>length));  </div><div class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> k <span class="keyword">in</span> o)  </div><div class="line">    <span class="keyword">if</span>(<span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"("</span>+ k +<span class="string">")"</span>).test(fmt))  </div><div class="line">  fmt = fmt.replace(<span class="built_in">RegExp</span>.$<span class="number">1</span>, (<span class="built_in">RegExp</span>.$<span class="number">1.</span>length==<span class="number">1</span>) ? (o[k]) : ((<span class="string">"00"</span>+ o[k]).substr((<span class="string">""</span>+ o[k]).length)));  </div><div class="line">  <span class="keyword">return</span> fmt;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>调用方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> time1 = <span class="keyword">new</span> <span class="built_in">Date</span>().format(“yyyy-MM-dd HH:mm:ss”);</div><div class="line"><span class="keyword">var</span> time2 = <span class="keyword">new</span> <span class="built_in">Date</span>().format(“yyyy-MM-dd”);</div></pre></td></tr></table></figure>
+<p>//产生一个六位随机数<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MathRand</span>(<span class="params"></span>)</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">var</span> Num=<span class="string">""</span>;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">6</span>;i++)</div><div class="line">    &#123;</div><div class="line">        Num+=<span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random()*<span class="number">10</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> Num;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/03/06/JS的预编译机制/" itemprop="url">
                   JS的预编译机制
                 </a>
@@ -383,7 +629,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -423,7 +669,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

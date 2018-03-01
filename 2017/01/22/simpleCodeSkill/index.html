@@ -84,25 +84,19 @@
 
 
 
-<meta name="description" content="1.call()
-call()方法接受两个参数，obj和arg 
-比如functionA.call（obj,arg）   就是说现在运行(执行)functionA这个方法，但是functionA里面的方法不是为它以前的对象而运行了，把functionA的this强行改变成了obj
-obj成为functionA中的this，然后来运行functionA这个方法，而arg是传给functionA的参数">
+<meta name="description" content="1.输出一个字符串的所有可能的片段（并不是所有随机组合，是所以可能的片段）for (var i=0;i&amp;lt;str.length;i++){        for (var j=i+1; j&amp;lt;str.length+1;j++){          console.log(str.slice(i,j))        }
+}2.for (whatever in obj){    consol">
 <meta property="og:type" content="article">
-<meta property="og:title" content="call()和原型继承的方法">
-<meta property="og:url" content="https://btista.github.io/2016/01/19/call-和原型继承的方法/index.html">
+<meta property="og:title" content="simpleCodeSkill">
+<meta property="og:url" content="https://btista.github.io/2017/01/22/simpleCodeSkill/index.html">
 <meta property="og:site_name" content="Btista">
-<meta property="og:description" content="1.call()
-call()方法接受两个参数，obj和arg 
-比如functionA.call（obj,arg）   就是说现在运行(执行)functionA这个方法，但是functionA里面的方法不是为它以前的对象而运行了，把functionA的this强行改变成了obj
-obj成为functionA中的this，然后来运行functionA这个方法，而arg是传给functionA的参数">
-<meta property="og:updated_time" content="2016-12-29T03:12:11.242Z">
+<meta property="og:description" content="1.输出一个字符串的所有可能的片段（并不是所有随机组合，是所以可能的片段）for (var i=0;i&amp;lt;str.length;i++){        for (var j=i+1; j&amp;lt;str.length+1;j++){          console.log(str.slice(i,j))        }
+}2.for (whatever in obj){    consol">
+<meta property="og:updated_time" content="2017-01-22T08:58:30.399Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="call()和原型继承的方法">
-<meta name="twitter:description" content="1.call()
-call()方法接受两个参数，obj和arg 
-比如functionA.call（obj,arg）   就是说现在运行(执行)functionA这个方法，但是functionA里面的方法不是为它以前的对象而运行了，把functionA的this强行改变成了obj
-obj成为functionA中的this，然后来运行functionA这个方法，而arg是传给functionA的参数">
+<meta name="twitter:title" content="simpleCodeSkill">
+<meta name="twitter:description" content="1.输出一个字符串的所有可能的片段（并不是所有随机组合，是所以可能的片段）for (var i=0;i&amp;lt;str.length;i++){        for (var j=i+1; j&amp;lt;str.length+1;j++){          console.log(str.slice(i,j))        }
+}2.for (whatever in obj){    consol">
 
 
 
@@ -123,10 +117,10 @@ obj成为functionA中的this，然后来运行functionA这个方法，而arg是�
 
 
 
-  <link rel="canonical" href="https://btista.github.io/2016/01/19/call-和原型继承的方法/"/>
+  <link rel="canonical" href="https://btista.github.io/2017/01/22/simpleCodeSkill/"/>
 
 
-  <title> call()和原型继承的方法 | Btista </title>
+  <title> simpleCodeSkill | Btista </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -256,7 +250,7 @@ obj成为functionA中的this，然后来运行functionA这个方法，而arg是�
             
             
               
-                call()和原型继承的方法
+                simpleCodeSkill
               
             
           </h1>
@@ -268,8 +262,8 @@ obj成为functionA中的this，然后来运行functionA这个方法，而arg是�
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-19T17:53:52+08:00" content="2016-01-19">
-              2016-01-19
+            <time itemprop="dateCreated" datetime="2017-01-22T15:03:05+08:00" content="2017-01-22">
+              2017-01-22
             </time>
           </span>
 
@@ -296,15 +290,8 @@ obj成为functionA中的this，然后来运行functionA这个方法，而arg是�
       
 
       
-        <p>1.call()</p>
-<p>call()方法接受两个参数，obj和arg </p>
-<p>比如functionA.call（obj,arg）   就是说现在运行(执行)functionA这个方法，但是functionA里面的方法不是为它以前的对象而运行了，把functionA的this强行改变成了obj</p>
-<p>obj成为functionA中的this，然后来运行functionA这个方法，而arg是传给functionA的参数</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Student</span>(<span class="params">props</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = props.name || <span class="string">'Unnamed'</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Student.prototype.hello = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    alert(<span class="string">'Hello, '</span> + <span class="keyword">this</span>.name + <span class="string">'!'</span>);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">PrimaryStudent</span>(<span class="params">props</span>) </span>&#123;</div><div class="line">    Student.call(<span class="keyword">this</span>, props);</div><div class="line">    <span class="keyword">this</span>.grade = props.grade || <span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>比如上面的代码，先定义了Student方法，然后定义了PrimaryStudent方法<br>在PrimaryStudent中， Student.call(this, props);指的是把this——也就是PrimaryStudent对象作为Student运行时的那个this，把props传给Student作为参数，来运行Student这个方法，运行出来的结果是什么呢<br>PrimaryStudent.name=props.name //这个props是传进来那个props<br>然后PrimaryStudent.prototype.hello = function () { alert(‘Hello, ‘ + this.name + ‘!’); }   它还获得了一个写在原型里的方法<br>则PrimaryStudent这个函数运行下来的结果相当于<br>function PrimaryStudent(props){<br>this.name = props.name || ‘Unnamed’;<br>this.prototype.hello = function () {<br>    alert(‘Hello, ‘ + this.name + ‘!’);<br>}<br>}<br>  这就是call方法<br>它会运行一个函数，然后告诉这个函数你现在得用我给你的对象来运行你的那套方法，返回出什么东西是什么东西</p>
-<p>2.原型继承</p>
-<p>而原型继承呢<br>一般我们会先定义一个方法  比如刚才的Student<br>Student方法里有属性，有定义在原型里的方法<br>然后我们想继承Student，我们定义出一个新的函数 littleStudent<br>在这个新的函数内部我们  Student.call(this,arg)   在这里this指的是littleStudent，按上面定义的Student函数（内部拿this写属性和方法），我们会获得一个littleStudent它内部有Student的那些属性和方法<br>等于Student在我们littleStudent内部执行了一遍，并且是为我们造属性和方法的，我们littleStudent现在也有这些方法了<br>但这样是继承吗？Student日后有改变，我们的littleStudent会有改变吗，不会<br>因为我们只是拿call让Student给我们也造了一套属性的方法，我们littleStudent的原型仍然指向littleStudent.protptype<br>当前的原型链是职业的  new littleStudent() —-&gt; littleStudent.prototype —-&gt; Object.prototype —-&gt; null   跟Student没有关系<br>需要变成这样  new littleStudent() —-&gt; littleStudent.prototype —-&gt; Student.prototype —-&gt; Object.prototype —-&gt; null<br>那么怎么继承呢</p>
-<p>先创建一个空函数F（）{     }<br>把这个空函数的原型指向Student的原型：F.prototype = Student.prototype;<br>然后把littleStudent的原型指向F的实例：littleStudent.prototype=new F();；   则littleStudent的原型里包含了student原型里的所有内容<br>然后把littleStudent原型的构造函数修复为littleStudent：littleStudent.prototype.constructor = littleStudent;   因为之前littleStudent.prototype=new F()   则new F().constructor指向的是构造函数F<br>然后我们就可以继续在littleStudent对象的原型上添加方法和属性了<br>littleStudent.prototype.getGrade = function () {<br>    return this.grade;<br>};<br>而这并不会影响Student的原型，因为我们在这儿添加方法相当于是在new F()上添加方法<br>至此我们又给littleStudent继承了Student的原型，又可以随意给它扩展，这就完成了一次继承</p>
+        <p>1.输出一个字符串的所有可能的片段（并不是所有随机组合，是所以可能的片段）<br>for (var i=0;i&lt;str.length;i++){<br>        for (var j=i+1; j&lt;str.length+1;j++){<br>          console.log(str.slice(i,j))<br>        }</p>
+<p>}<br>2.for (whatever in obj){<br>    console.log(whatever)<br>}<br>whatever 指的永远是obj的属性，你可以用prop, key ,keys或者任何东西来替代。<br>想访问指只能<br>for (whatever in obj){<br>    console.log(obj[whatever])<br>}</p>
 
       
     </div>
@@ -330,16 +317,16 @@ obj成为functionA中的this，然后来运行functionA这个方法，而arg是�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/01/04/基础内容回顾/" rel="next" title="基础内容回顾">
-                <i class="fa fa-chevron-left"></i> 基础内容回顾
+              <a href="/2016/12/05/15.5/" rel="next" title="Javascript中多种模块化的用法及其对比">
+                <i class="fa fa-chevron-left"></i> Javascript中多种模块化的用法及其对比
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/04/11/You-Don-t-Know-JS-Scope-Closures-翻译/" rel="prev" title="You Don't Know JS: Scope & Closures(翻译)">
-                You Don't Know JS: Scope & Closures(翻译) <i class="fa fa-chevron-right"></i>
+              <a href="/2017/03/01/let-和-const-命令/" rel="prev" title="let 和 const 命令">
+                let 和 const 命令 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

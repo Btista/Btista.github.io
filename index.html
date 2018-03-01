@@ -246,6 +246,227 @@
             
               
                 
+                <a class="post-title-link" href="/2017/03/01/let-和-const-命令/" itemprop="url">
+                  let 和 const 命令
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-03-01T17:56:04+08:00" content="2017-03-01">
+              2017-03-01
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.let命令，只在命令所在的代码块内有效/可访问。（代码块也就是花括号{}）</p>
+<p>for循环的计数器，就很合适使用let命令。<br>参考下面两块代码，体会“ let声明的变量仅在块级作用域内有效 /可访问 ”<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [];</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">  a[i] = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(i);</div><div class="line">  &#125;;</div><div class="line">&#125;</div><div class="line">a[<span class="number">6</span>](); <span class="comment">// 10</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [];</div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">  a[i] = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(i);</div><div class="line">  &#125;;</div><div class="line">&#125;</div><div class="line">a[<span class="number">6</span>](); <span class="comment">// 6</span></div></pre></td></tr></table></figure>
+<p>2.使用let,不存在变量提升现象。</p>
+<p> 这意味着只要let声明语句还没有执行，调用这个变量就会报错，而不是得到undefined。</p>
+<p> 在代码块内，使用let命令声明变量之前，该变量都是不可用的。这在语法上，称为“暂时性死区”</p>
+<p> ES6明确规定，如果区块中存在let和const命令，这个区块对这些命令声明的变量，从一开始就形成了封闭作用域。凡是在声明之前就使用这些变量，就会报错。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmp = <span class="number">123</span>;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</div><div class="line">  tmp = <span class="string">'abc'</span>; <span class="comment">// ReferenceError</span></div><div class="line">  <span class="keyword">let</span> tmp;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>3.使用let，不允许（在同一个代码块中）重复声明<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 报错</span></div><div class="line"><span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">let</span> a = <span class="number">10</span>;</div><div class="line">  <span class="keyword">let</span> a = <span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ol>
+<li>ES6的块级作用域<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 报错</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">let</span> n = <span class="number">5</span>;</div><div class="line">  <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</div><div class="line">    <span class="keyword">let</span> n = <span class="number">10</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">console</span>.log(n); <span class="comment">// 5</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>上面代码如果是用var声明的话，console的结果应该是10</p>
+<p>ES6 允许块级作用域的任意嵌套。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;&#123;&#123;&#123;&#123;<span class="keyword">let</span> insane = <span class="string">'Hello World'</span>&#125;&#125;&#125;&#125;&#125;;</div></pre></td></tr></table></figure></p>
+<pre><code>外层作用域无法读取内层作用域的变量，和函数外无法读取函数内的变量一样。
+
+同理，块级作用内部的块级作用域可以读取外层的变量，仍然遵守“先在本级找，没有的话去父级找，直至顶层”。
+
+当然， 内层作用域也可以定义外层作用域的同名变量，因为根本就不是一个作用域。
+
+同样的，在块级作用域中声明的函数就像let一样，在块级外无法访问。就好比我们在函数内部声明的函数一样。
+
+实际上，一个块级作用域{}，里面写一些代码，其作用和立即执行函数（ IIFE ）是一样的。
+</code></pre><p>5.const<br>const声明一个只读的常量。一旦声明，常量的值就不能改变。<br>const的作用域与let命令相同：只在声明所在的块级作用域内有效 。const命令声明的常量也是不提升，同样存在暂时性死区 。</p>
+<p>本质<br>const实际上保证的，并不是变量的值不得改动，而是变量指向的那个内存地址不得改动。对于简单类型的数据（数值、字符串、布尔值），值就保存在变量指向的那个内存地址，因此等同于常量。但对于复合类型的数据（主要是对象和数组），变量指向的内存地址，保存的只是一个指针，const只能保证这个指针是固定的，至于它指向的数据结构是不是可变的，就完全不能控制了。因此，将一个对象声明为常量必须非常小心。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> foo = &#123;&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 为 foo 添加一个属性，可以成功</span></div><div class="line">foo.prop = <span class="number">123</span>;</div><div class="line">foo.prop <span class="comment">// 123</span></div><div class="line"></div><div class="line"><span class="comment">// 将 foo 指向另一个对象，就会报错</span></div><div class="line">foo = &#123;&#125;; <span class="comment">// TypeError: "foo" is read-only</span></div></pre></td></tr></table></figure>
+<p>6.ES6声明变量有六种方法<br>以前只用var 和 function 两种声明变量的命令。<br>现在有六种，分别是 var , function , let , const, class, import</p>
+<p>7.顶层对象</p>
+<p>顶层对象，在浏览器环境指的是window对象，在Node指的是global对象。ES5之中，顶层对象的属性与全局变量是等价的。<br>而在ES6中， var命令和function命令声明的全局变量，依旧是顶层对象的属性；另一方面规定，let命令、const命令、class命令声明的全局变量，不属于顶层对象的属性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</div><div class="line"><span class="comment">// 如果在Node的REPL环境，可以写成global.a</span></div><div class="line"><span class="comment">// 或者采用通用方法，写成this.a</span></div><div class="line"><span class="built_in">window</span>.a <span class="comment">// 1</span></div><div class="line"></div><div class="line"><span class="keyword">let</span> b = <span class="number">1</span>;</div><div class="line"><span class="built_in">window</span>.b <span class="comment">// undefined</span></div></pre></td></tr></table></figure>
+<p>8.在ES6中，什么情况下使用var, 什么情况下使用let ？</p>
+<p>For ES6: Adopt let and const. Stop using var.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/22/simpleCodeSkill/" itemprop="url">
+                  simpleCodeSkill
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-01-22T15:03:05+08:00" content="2017-01-22">
+              2017-01-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.输出一个字符串的所有可能的片段（并不是所有随机组合，是所以可能的片段）<br>for (var i=0;i&lt;str.length;i++){<br>        for (var j=i+1; j&lt;str.length+1;j++){<br>          console.log(str.slice(i,j))<br>        }</p>
+<p>}<br>2.for (whatever in obj){<br>    console.log(whatever)<br>}<br>whatever 指的永远是obj的属性，你可以用prop, key ,keys或者任何东西来替代。<br>想访问指只能<br>for (whatever in obj){<br>    console.log(obj[whatever])<br>}</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/12/05/15.5/" itemprop="url">
                   Javascript中多种模块化的用法及其对比
                 </a>
@@ -1065,252 +1286,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/09/16/locationHash/" itemprop="url">
-                  locationHash的摘抄（转）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-09-16T17:31:21+08:00" content="2015-09-16">
-              2015-09-16
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>去年9月，twitter改版。</p>
-<p>一个显著变化，就是URL加入了”#!”符号。比如，改版前的用户主页网址为</p>
-<p>　　<a href="http://twitter.com/username" target="_blank" rel="external">http://twitter.com/username</a></p>
-<p>改版后，就变成了</p>
-<p>　　<a href="http://twitter.com/#!/username" target="_blank" rel="external">http://twitter.com/#!/username</a></p>
-<p>在我印象中，这是主流网站第一次将”#”大规模用于直接与用户交互的关键URL中。这表明井号（Hash）的作用正在被重新认识。本文根据HttpWatch的文章，整理与井号有关的所有重要知识点。</p>
-<p>一、#的涵义</p>
-<p>代表网页中的一个位置。其右面的字符，就是该位置的标识符。比如，</p>
-<p>　　<a href="http://www.example.com/index.html#print" target="_blank" rel="external">http://www.example.com/index.html#print</a></p>
-<p>就代表网页index.html的print位置。浏览器读取这个URL后，会自动将print位置滚动至可视区域。</p>
-<p>为网页位置指定标识符，有两个方法。一是使用锚点，比如<a name="print"></a>，二是使用id属性，比如<div id="print">。</div></p>
-<p>二、HTTP请求不包括#</p>
-<p>是用来指导浏览器动作的，对服务器端完全无用。所以，HTTP请求中不包括#。</p>
-<p>比如，访问下面的网址，</p>
-<p>　　<a href="http://www.example.com/index.html#print" target="_blank" rel="external">http://www.example.com/index.html#print</a></p>
-<p>浏览器实际发出的请求是这样的：</p>
-<p>　　GET /index.html HTTP/1.1</p>
-<p>　　Host: www.example.com</p>
-<p>可以看到，只是请求index.html，根本没有”#print”的部分。</p>
-<p>三、#后的字符</p>
-<p>在第一个#后面出现的任何字符，都会被浏览器解读为位置标识符。这意味着，这些字符都不会被发送到服务器端。</p>
-<p>比如，下面URL的原意是指定一个颜色值：</p>
-<p>　　<a href="http://www.example.com/?color=#fff" target="_blank" rel="external">http://www.example.com/?color=#fff</a></p>
-<p>但是，浏览器实际发出的请求是：</p>
-<p>　　GET /?color= HTTP/1.1</p>
-<p>　　Host: www.example.com</p>
-<p>可以看到，”#fff”被省略了。只有将#转码为%23，浏览器才会将其作为实义字符处理。也就是说，上面的网址应该被写成：</p>
-<p>　　<a href="http://example.com/?color=%23fff" target="_blank" rel="external">http://example.com/?color=%23fff</a></p>
-<p>四、改变#不触发网页重载</p>
-<p>单单改变#后的部分，浏览器只会滚动到相应位置，不会重新加载网页。</p>
-<p>比如，从</p>
-<p>　　<a href="http://www.example.com/index.html#location1" target="_blank" rel="external">http://www.example.com/index.html#location1</a></p>
-<p>改成</p>
-<p>　　<a href="http://www.example.com/index.html#location2" target="_blank" rel="external">http://www.example.com/index.html#location2</a></p>
-<p>浏览器不会重新向服务器请求index.html。</p>
-<p>五、改变#会改变浏览器的访问历史</p>
-<p>每一次改变#后的部分，都会在浏览器的访问历史中增加一个记录，使用”后退”按钮，就可以回到上一个位置。</p>
-<p>这对于ajax应用程序特别有用，可以用不同的#值，表示不同的访问状态，然后向用户给出可以访问某个状态的链接。</p>
-<p>值得注意的是，上述规则对IE 6和IE 7不成立，它们不会因为#的改变而增加历史记录。</p>
-<p>六、window.location.hash读取#值</p>
-<p>window.location.hash这个属性可读可写。读取时，可以用来判断网页状态是否改变；写入时，则会在不重载网页的前提下，创造一条访问历史记录。</p>
-<p>七、onhashchange事件</p>
-<p>这是一个HTML 5新增的事件，当#值发生变化时，就会触发这个事件。IE8+、Firefox 3.6+、Chrome 5+、Safari 4.0+支持该事件。</p>
-<p>它的使用方法有三种：</p>
-<p>　　window.onhashchange = func;</p>
-<p>　　<body onhashchange="func();"></body></p>
-<p>　　window.addEventListener(“hashchange”, func, false);</p>
-<p>对于不支持onhashchange的浏览器，可以用setInterval监控location.hash的变化。</p>
-<p>八、Google抓取#的机制</p>
-<p>默认情况下，Google的网络蜘蛛忽视URL的#部分。</p>
-<p>但是，Google还规定，如果你希望Ajax生成的内容被浏览引擎读取，那么URL中可以使用”#!”，Google会自动将其后面的内容转成查询字符串_escaped<em>fragment</em>的值。</p>
-<p>比如，Google发现新版twitter的URL如下：</p>
-<p>　　<a href="http://twitter.com/#!/username" target="_blank" rel="external">http://twitter.com/#!/username</a></p>
-<p>就会自动抓取另一个URL：</p>
-<p>　　<a href="http://twitter.com/?_escaped_fragment_=/username" target="_blank" rel="external">http://twitter.com/?_escaped_fragment_=/username</a></p>
-<p>通过这种机制，Google就可以索引动态的Ajax内容。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/09/02/javascript-Date-format/" itemprop="url">
-                  javascript Date format
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-09-02T16:19:00+08:00" content="2015-09-02">
-              2015-09-02
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h6 id="来自CSDN的Meizz"><a href="#来自CSDN的Meizz" class="headerlink" title="来自CSDN的Meizz"></a>来自CSDN的Meizz</h6><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">/ 对<span class="built_in">Date</span>的扩展，将 <span class="built_in">Date</span> 转化为指定格式的<span class="built_in">String</span>  </div><div class="line"><span class="comment">// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，  </span></div><div class="line"><span class="comment">// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)  </span></div><div class="line"><span class="comment">// 例子：  </span></div><div class="line"><span class="comment">// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==&gt; 2006-07-02 08:09:04.423  </span></div><div class="line"><span class="comment">// (new Date()).Format("yyyy-M-d h:m:s.S")      ==&gt; 2006-7-2 8:9:4.18  </span></div><div class="line"><span class="built_in">Date</span>.prototype.Format = <span class="function"><span class="keyword">function</span>(<span class="params">fmt</span>)  </span></div><div class="line">&#123; <span class="comment">//author: meizz  </span></div><div class="line">  <span class="keyword">var</span> o = &#123;  </div><div class="line">    <span class="string">"M+"</span> : <span class="keyword">this</span>.getMonth()+<span class="number">1</span>,                 <span class="comment">//月份  </span></div><div class="line">    <span class="string">"d+"</span> : <span class="keyword">this</span>.getDate(),                    <span class="comment">//日  </span></div><div class="line">    <span class="string">"h+"</span> : <span class="keyword">this</span>.getHours(),                   <span class="comment">//小时  </span></div><div class="line">    <span class="string">"m+"</span> : <span class="keyword">this</span>.getMinutes(),                 <span class="comment">//分  </span></div><div class="line">    <span class="string">"s+"</span> : <span class="keyword">this</span>.getSeconds(),                 <span class="comment">//秒  </span></div><div class="line">    <span class="string">"q+"</span> : <span class="built_in">Math</span>.floor((<span class="keyword">this</span>.getMonth()+<span class="number">3</span>)/<span class="number">3</span>), <span class="comment">//季度  </span></div><div class="line">    <span class="string">"S"</span>  : <span class="keyword">this</span>.getMilliseconds()             <span class="comment">//毫秒  </span></div><div class="line">  &#125;;  </div><div class="line">  <span class="keyword">if</span>(<span class="regexp">/(y+)/</span>.test(fmt))  </div><div class="line">    fmt=fmt.replace(<span class="built_in">RegExp</span>.$<span class="number">1</span>, (<span class="keyword">this</span>.getFullYear()+<span class="string">""</span>).substr(<span class="number">4</span> - <span class="built_in">RegExp</span>.$<span class="number">1.</span>length));  </div><div class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> k <span class="keyword">in</span> o)  </div><div class="line">    <span class="keyword">if</span>(<span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"("</span>+ k +<span class="string">")"</span>).test(fmt))  </div><div class="line">  fmt = fmt.replace(<span class="built_in">RegExp</span>.$<span class="number">1</span>, (<span class="built_in">RegExp</span>.$<span class="number">1.</span>length==<span class="number">1</span>) ? (o[k]) : ((<span class="string">"00"</span>+ o[k]).substr((<span class="string">""</span>+ o[k]).length)));  </div><div class="line">  <span class="keyword">return</span> fmt;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>调用方法：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> time1 = <span class="keyword">new</span> <span class="built_in">Date</span>().format(“yyyy-MM-dd HH:mm:ss”);</div><div class="line"><span class="keyword">var</span> time2 = <span class="keyword">new</span> <span class="built_in">Date</span>().format(“yyyy-MM-dd”);</div></pre></td></tr></table></figure>
-<p>//产生一个六位随机数<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MathRand</span>(<span class="params"></span>)</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">var</span> Num=<span class="string">""</span>;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">6</span>;i++)</div><div class="line">    &#123;</div><div class="line">        Num+=<span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random()*<span class="number">10</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> Num;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1356,7 +1331,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1396,7 +1371,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
