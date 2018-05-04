@@ -246,6 +246,106 @@
             
               
                 
+                <a class="post-title-link" href="/2018/05/04/2018-5-4/" itemprop="url">
+                  Promise与异步编程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-05-04T11:05:50+08:00" content="2018-05-04">
+              2018-05-04
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.众所周知，javascript是单线程的语言，javascript使用异步线程来解决这一问题。使用javascript异步编程有三种方式： 回调函数，事件，promise<br>回调函数是指本来 fn1(); fn2;这样的顺序变为 fn1(fn2)； 当fn1耗时较长且fn2依赖fn1的计算时将fn1放入异步线程：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">fn1(fn2)&#123;</div><div class="line">    setTimeOut( <span class="function"><span class="params">()</span>=&gt;</span>&#123;</div><div class="line">    <span class="comment">//fn1 logic code </span></div><div class="line">     fn2()&#125;</div><div class="line">     , <span class="number">0</span>) ;   </div><div class="line">     <span class="comment">//1.确保fn2依然在fn1后执行 2.将fn1放入异步线程，确保这种耗时较长的计算在空闲时间执行</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>事件是指以事件来触发异步操作，相当于在声明时将该操作（回调函数）放入异步队列，当事件触发时再去调用<br>         典型的应用包括事件绑定等，ajax就是典型的事件触发异步操作，在jQuery中会返回sucess后调用sucess的回调，在ajax原生实现中则依赖于XHR对象的readyState属性变化触发readyStateChange事件，XHR实例对象.readyState属性有0-4共五个状态，每次改变都会触发readyStateChange事件，则只需要监听XHR实例对象的readyStateChange事件就可以实现ajax。</p>
+<p>2.Promise对象<br>Promise 对象用于表示一个异步操作的最终状态（完成或失败），以及其返回的值。<br>    Promise 对象表示的异步操作的状态在其属性里，其返回的值从resolve(value)里传递进来，可以通过then方法里的回调函数的参数来获取。<br>Promise构造函数<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</div><div class="line">  <span class="comment">// ... some code</span></div><div class="line">  <span class="comment">//resolve和 reject是Promise构造函数的两个原生方法，调用resolve()会导致这个Promise对象的状态变为resolved，</span></div><div class="line">  <span class="comment">//调用reject会导致这个Promise对象的状态变为rejected，如果这两个方法不调用，则这个Promise对象的状态停留在pending。</span></div><div class="line">  <span class="keyword">if</span> (<span class="comment">/* 异步操作成功 */</span>)&#123; resolve(value);<span class="comment">//此处传进去的值value会作为.then方法reslovedCallback的参数传进去 &#125; else &#123; reject(error);  //此处传进去的值value会作为.then方法  rejecte    dCallback的参数传进去</span></div><div class="line">  &#125; &#125;);</div></pre></td></tr></table></figure></p>
+<p>Promise实例生成以后，可以用then方法分别指定resolved状态和rejected状态的回调函数。then方法可以接受两个回调函数作为参数。第一个回调函数是Promise对象的状态变为resolved时调用，第二个回调函数是Promise对象的状态变为rejected时调用<br>下面是一个用Promise对象实现的 Ajax 操作的例子。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> getJSON = <span class="function"><span class="keyword">function</span>(<span class="params">url</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>)</span>&#123;</div><div class="line">    <span class="keyword">const</span> handler = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.readyState !== <span class="number">4</span>) &#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.status === <span class="number">200</span>) &#123;</div><div class="line">        resolve(<span class="keyword">this</span>.response);</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="keyword">this</span>.statusText));</div><div class="line">      &#125;</div><div class="line">    &#125;;</div><div class="line">    <span class="keyword">const</span> client = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">    client.open(<span class="string">"GET"</span>, url);</div><div class="line">    client.onreadystatechange = handler;</div><div class="line">    client.responseType = <span class="string">"json"</span>;</div><div class="line">    client.setRequestHeader(<span class="string">"Accept"</span>, <span class="string">"application/json"</span>);</div><div class="line">    client.send();</div><div class="line"></div><div class="line">  &#125;); <span class="comment">//promise对象为一个Promise实例对象，在其中发起一个XHR请求，这是一个异步请求，事件监听器会监听XHR对象的readystate属性</span></div><div class="line">      <span class="comment">//当其变化时会触发onreadystatechange事件，当readystate状态变为4时，执行resolve方法并且将返回的数据传进参数，则后面</span></div><div class="line">      <span class="comment">//调用的.then方法可以在其resolvedCallBack中通过参数拿到这个数据并处理它</span></div><div class="line">  <span class="keyword">return</span> promise;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">getJSON(<span class="string">"/posts.json"</span>).then(<span class="function"><span class="keyword">function</span>(<span class="params">json</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Contents: '</span> + json);<span class="comment">//当reslove方法执行时才会进入到.then中，此时promise对象已经被标记为resloved，其值通过参数</span></div><div class="line">                                   <span class="comment">//传了进来</span></div><div class="line">&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">error</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.error(<span class="string">'出错了'</span>, error);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>Promise.prototype.then方法<br>then() 方法返回一个  Promise 。它最多需要有两个参数：Promise 的成功和失败情况的回调函数。<br>then方法返回一个Promise，而它的行为与then中的回调函数的返回值有关：</p>
+<p>如果then中的回调函数返回一个值，那么then返回的Promise将会成为接受状态，并且将返回的值作为接受状态的回调函数的参数值。<br>//解读：当then的回到函数return值时，then返回的Promise对象（then方法会返回一个promise对象嘛）就会改变状态，变为<br>//解读：resolved，并且返回的值将作为下一个then链式调用时的successCallBack的参数，相当于只要then返回值，那么then所产生的整个promise对象就执行了resolve(返回的值)<br>如果then中的回调函数抛出一个错误，那么then返回的Promise将会成为拒绝状态，并且将抛出的错误作为拒绝状态的回调函数的参数值。<br>//解读：同上<br>如果then中的回调函数返回一个已经是接受状态的Promise，那么then返回的Promise也会成为接受状态，并且将那个Promise的接受状态的回调函数的参数值作为该被返回的Promise的接受状态回调函数的参数值。<br>如果then中的回调函数返回一个已经是拒绝状态的Promise，那么then返回的Promise也会成为拒绝状态，并且将那个Promise的拒绝状态的回调函数的参数值作为该被返回的Promise的拒绝状态回调函数的参数值。<br>如果then中的回调函数返回一个未定状态（pending）的Promise，那么then返回Promise的状态也是未定的，并且它的终态与那个Promise的终态相同；同时，它变为终态时调用的回调函数参数与那个Promise变为终态时的回调函数的参数是相同的。<br>//解读：如果返回的是一个promise对象，则取决于这个promise对象的状态，返回值时then返回的这个promise对象会立刻改变状态，返回promise对象时then返回的这个promise对象的状态会【同步于】return 后的这个promise对象的状态，如果它已经被标记为resolved,则then返回的promise对象也会立即变为resolved，传下去的值为return后这个promise对象在执行resolve(data)时传的这个data。如果标记为rejected则同理。<br>//解读： 如果return后的这个promise对象的状态还在pending，那么then返回的promise状态会等着它，直到它的状态变了，then返回的promise才变（变为和它一样），值也为它在执行resolved时传的值，在它未改变之前，后面的.then不会执行</p>
+<pre><code>链式调用示例
+</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Promise</span>.resolve(<span class="string">"foo"</span>)</div><div class="line">  <span class="comment">// 1. 接收 "foo" 并与 "bar" 拼接，并将其结果做为下一个resolve返回。</span></div><div class="line">  .then(<span class="function"><span class="keyword">function</span>(<span class="params">string</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123; <span class="comment">//这里返回的是一个promise而不是一个值，所以.then不会立刻返回而是等着它</span></div><div class="line">      setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        string += <span class="string">'bar'</span>;</div><div class="line">        resolve(string);<span class="comment">//直到它完成了，改变了状态，.then才执行结束，并且状态改为和它一样，传下去的值也改为resolve(string)中的string</span></div><div class="line">      &#125;, <span class="number">1</span>);</div><div class="line">    &#125;);</div><div class="line">  &#125;)</div><div class="line">  <span class="comment">// 2. 接收 "foobar", 放入一个异步函数中处理该字符串</span></div><div class="line">  <span class="comment">// 并将其打印到控制台中, 但是不将处理后的字符串返回到下一个。</span></div><div class="line">  .then(<span class="function"><span class="keyword">function</span>(<span class="params">string</span>) </span>&#123; <span class="comment">//这个参数string接受的是上一个resolve里的参数值</span></div><div class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      string += <span class="string">'baz'</span>;</div><div class="line">      <span class="built_in">console</span>.log(string);</div><div class="line">    &#125;, <span class="number">1</span>)</div><div class="line">    <span class="keyword">return</span> string; <span class="comment">//注意：这里返回的不是一个promise对象，而是一个值，这个值前面有异步操作，所以还没等异步操作执行到其callback时这句return就执行了</span></div><div class="line">  &#125;)               <span class="comment">//所以它return的是foobar 而不是foobarbaz</span></div><div class="line">  <span class="comment">// 3. 打印本节中代码将如何运行的帮助消息，</span></div><div class="line">  <span class="comment">// 字符串实际上是由上一个回调函数之前的那块异步代码处理的。</span></div><div class="line">  .then(<span class="function"><span class="keyword">function</span>(<span class="params">string</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"Last Then:  oops... didn't bother to instantiate and return "</span> +</div><div class="line">                <span class="string">"a promise in the prior then so the sequence may be a bit "</span> +</div><div class="line">                <span class="string">"surprising"</span>);</div><div class="line"></div><div class="line">    <span class="comment">// 注意 `string` 这时不会存在 'baz'。</span></div><div class="line">    <span class="comment">// 因为这是发生在我们通过setTimeout模拟的异步函数中。</span></div><div class="line">    <span class="built_in">console</span>.log(string);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/03/01/let-和-const-命令/" itemprop="url">
                   let 和 const 命令
                 </a>
@@ -1175,117 +1275,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/04/基础内容回顾/" itemprop="url">
-                  基础内容回顾
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-04T22:37:02+08:00" content="2016-01-04">
-              2016-01-04
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.高阶函数指把函数作为参数的函数，map和reduce就是两个高阶函数</p>
-<p>map接受一个方法作为参数，可以对一个数列中的每一个元素拿此方法做处理，像这样<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">pow</span>(<span class="params">x</span>)</span>&#123;<span class="keyword">return</span> x+<span class="number">1</span>&#125;</div><div class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>].map(pow)</div><div class="line"><span class="comment">//[2, 3, 4, 5, 6]</span></div></pre></td></tr></table></figure></p>
-<p>reduce接受一个方法作为参数，这个方法必须有两个参数，可以对一个数列中的元素做累计处理，第一个参数为数组处理的累积返回值，第二个参数为新加入处理的数组元素<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">pow</span>(<span class="params">x,y</span>)</span>&#123;<span class="keyword">return</span> x+y&#125;</div><div class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>].reduce(pow)</div><div class="line"><span class="number">15</span></div></pre></td></tr></table></figure></p>
-<p>但是需要注意的是，map和reduce只需要处理数组的方法，即只需要传reduce(pow)，不需要reduce(pow())；另外，map和reduce是两个方法，两个api，直接跟在数组后面，如：[1,2,3,4,5].reduce(pow)</p>
-<p>2.闭包</p>
-<p>闭包指的就是一个函数里面返回了一个函数，或者这个函数返回的值里有未执行的函数，像这样：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">count</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> arr = [];</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">1</span>; i&lt;=<span class="number">3</span>; i++) &#123;</div><div class="line">        arr.push(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> i * i;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> arr;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>count()，执行后返回了arr数组，arr数组中每一个元素都是一个未执行的函数，返回出来是这样的<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">count()</div><div class="line">[funciton() &#123;<span class="keyword">return</span> i * i;&#125;,funciton() &#123;<span class="keyword">return</span> i * i;&#125;,funciton() &#123;<span class="keyword">return</span> i * i;&#125;]</div></pre></td></tr></table></figure></p>
-<p>这就是闭包了，返回了未执行的函数或者返回的值里包含未执行的函数，这里要说的是闭包的第一个特性，闭包可以保存外部函数带来的数据：</p>
-<p>  比如一个函数内含闭包，在闭包外声明var a=1;然后闭包中也用了a，那么外部这个函数执行完后会返回这个闭包，闭包中这个a=1的值仍然保存，单独放在那里也保存着a=1，因为闭包是一个“携带状态的函数，并且它的状态可以完全对外隐藏起来”</p>
-<p>比如下面这个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">create_counter</span>(<span class="params">initial</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> x = initial || <span class="number">0</span>;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">inc</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            x += <span class="number">1</span>;</div><div class="line">            <span class="keyword">return</span> x;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> c1 = create_counter();</div><div class="line">c1.inc(); <span class="comment">// 1</span></div><div class="line">c1.inc(); <span class="comment">// 2</span></div><div class="line">c1.inc(); <span class="comment">// 3</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> c2 = create_counter(<span class="number">10</span>);</div><div class="line">c2.inc(); <span class="comment">// 11</span></div><div class="line">c2.inc(); <span class="comment">// 12</span></div><div class="line">c2.inc(); <span class="comment">// 13</span></div></pre></td></tr></table></figure></p>
-<p>如以上代码，x的值在闭包中始终存在。</p>
-<p>我之前疑惑的一点是在调用c1.inc()时，c1不是等于create_counter()吗?它每c1.inc（）一次，先执行c1时难道不会把x再次初始化吗，那闭包中保存的值不是被初始化了</p>
-<p>后来想了想，原来c1=create_counter()意思是c1是create_counter这个函数执行后的返回值，它的返回值是什么，是闭包啊，没有那个初始化语句了，所以上面说“先执行c1”是可笑的，因为它只是一个值而已，它只是一个执行过的函数返回的值而已</p>
-<p>闭包的第二个特性就是，闭包保存的值（外部的值沿用到内部因未执行保存起来的），保存的是这个值的最后一个状态</p>
-<p>什么意思呢<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">count</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> arr = [];</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">1</span>; i&lt;=<span class="number">3</span>; i++) &#123;</div><div class="line">        arr.push(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> i * i;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> arr;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这个最终返回的是[16,16,16]，因为i循环完了的时候，返回的闭包还是[funciton() {return i <em> i;},funciton() {return i </em> i;},funciton() {return i * i;}]</p>
-<p>并没有执行，但是i已经等于4了，所以等它们重见天日的时候，它们内部保存的状态（值）是i=4</p>
-<p>待续</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1331,7 +1320,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

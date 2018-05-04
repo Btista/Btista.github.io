@@ -246,6 +246,117 @@
             
               
                 
+                <a class="post-title-link" href="/2016/01/04/基础内容回顾/" itemprop="url">
+                  基础内容回顾
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-04T22:37:02+08:00" content="2016-01-04">
+              2016-01-04
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.高阶函数指把函数作为参数的函数，map和reduce就是两个高阶函数</p>
+<p>map接受一个方法作为参数，可以对一个数列中的每一个元素拿此方法做处理，像这样<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">pow</span>(<span class="params">x</span>)</span>&#123;<span class="keyword">return</span> x+<span class="number">1</span>&#125;</div><div class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>].map(pow)</div><div class="line"><span class="comment">//[2, 3, 4, 5, 6]</span></div></pre></td></tr></table></figure></p>
+<p>reduce接受一个方法作为参数，这个方法必须有两个参数，可以对一个数列中的元素做累计处理，第一个参数为数组处理的累积返回值，第二个参数为新加入处理的数组元素<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">pow</span>(<span class="params">x,y</span>)</span>&#123;<span class="keyword">return</span> x+y&#125;</div><div class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>].reduce(pow)</div><div class="line"><span class="number">15</span></div></pre></td></tr></table></figure></p>
+<p>但是需要注意的是，map和reduce只需要处理数组的方法，即只需要传reduce(pow)，不需要reduce(pow())；另外，map和reduce是两个方法，两个api，直接跟在数组后面，如：[1,2,3,4,5].reduce(pow)</p>
+<p>2.闭包</p>
+<p>闭包指的就是一个函数里面返回了一个函数，或者这个函数返回的值里有未执行的函数，像这样：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">count</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> arr = [];</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">1</span>; i&lt;=<span class="number">3</span>; i++) &#123;</div><div class="line">        arr.push(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> i * i;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> arr;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>count()，执行后返回了arr数组，arr数组中每一个元素都是一个未执行的函数，返回出来是这样的<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">count()</div><div class="line">[funciton() &#123;<span class="keyword">return</span> i * i;&#125;,funciton() &#123;<span class="keyword">return</span> i * i;&#125;,funciton() &#123;<span class="keyword">return</span> i * i;&#125;]</div></pre></td></tr></table></figure></p>
+<p>这就是闭包了，返回了未执行的函数或者返回的值里包含未执行的函数，这里要说的是闭包的第一个特性，闭包可以保存外部函数带来的数据：</p>
+<p>  比如一个函数内含闭包，在闭包外声明var a=1;然后闭包中也用了a，那么外部这个函数执行完后会返回这个闭包，闭包中这个a=1的值仍然保存，单独放在那里也保存着a=1，因为闭包是一个“携带状态的函数，并且它的状态可以完全对外隐藏起来”</p>
+<p>比如下面这个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">create_counter</span>(<span class="params">initial</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> x = initial || <span class="number">0</span>;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">inc</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            x += <span class="number">1</span>;</div><div class="line">            <span class="keyword">return</span> x;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> c1 = create_counter();</div><div class="line">c1.inc(); <span class="comment">// 1</span></div><div class="line">c1.inc(); <span class="comment">// 2</span></div><div class="line">c1.inc(); <span class="comment">// 3</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> c2 = create_counter(<span class="number">10</span>);</div><div class="line">c2.inc(); <span class="comment">// 11</span></div><div class="line">c2.inc(); <span class="comment">// 12</span></div><div class="line">c2.inc(); <span class="comment">// 13</span></div></pre></td></tr></table></figure></p>
+<p>如以上代码，x的值在闭包中始终存在。</p>
+<p>我之前疑惑的一点是在调用c1.inc()时，c1不是等于create_counter()吗?它每c1.inc（）一次，先执行c1时难道不会把x再次初始化吗，那闭包中保存的值不是被初始化了</p>
+<p>后来想了想，原来c1=create_counter()意思是c1是create_counter这个函数执行后的返回值，它的返回值是什么，是闭包啊，没有那个初始化语句了，所以上面说“先执行c1”是可笑的，因为它只是一个值而已，它只是一个执行过的函数返回的值而已</p>
+<p>闭包的第二个特性就是，闭包保存的值（外部的值沿用到内部因未执行保存起来的），保存的是这个值的最后一个状态</p>
+<p>什么意思呢<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">count</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> arr = [];</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">1</span>; i&lt;=<span class="number">3</span>; i++) &#123;</div><div class="line">        arr.push(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> i * i;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> arr;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个最终返回的是[16,16,16]，因为i循环完了的时候，返回的闭包还是[funciton() {return i <em> i;},funciton() {return i </em> i;},funciton() {return i * i;}]</p>
+<p>并没有执行，但是i已经等于4了，所以等它们重见天日的时候，它们内部保存的状态（值）是i=4</p>
+<p>待续</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/09/16/locationHash/" itemprop="url">
                   locationHash的摘抄（转）
                 </a>
@@ -629,7 +740,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
