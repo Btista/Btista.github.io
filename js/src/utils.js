@@ -144,7 +144,7 @@ NexT.utils = NexT.$u = {
   hasMobileUA: function () {
     var nav = window.navigator;
     var ua = nav.userAgent;
-    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/;
 
     return pa.test(ua);
   },
