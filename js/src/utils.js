@@ -171,7 +171,7 @@ NexT.utils = NexT.$u = {
   },
 
   displaySidebar: function () {
-    if (!this.isDesktop() || this.isPisces()) {
+    if (!this.isDesktop()) {
       return;
     }
     $('.sidebar-toggle').trigger('click');
@@ -179,10 +179,6 @@ NexT.utils = NexT.$u = {
 
   isMist: function () {
     return CONFIG.scheme === 'Mist';
-  },
-
-  isPisces: function () {
-    return CONFIG.scheme === 'Pisces';
   },
 
   getScrollbarWidth: function () {
@@ -193,14 +189,5 @@ NexT.utils = NexT.$u = {
     $div.remove();
 
     return scrollbarWidth;
-  },
-
-  /**
-   * Affix behaviour for Sidebar.
-   *
-   * @returns {Boolean}
-   */
-  needAffix: function () {
-    return this.isPisces();
   }
 };
