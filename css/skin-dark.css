@@ -1,0 +1,211 @@
+/*
+ * Dark skin for the NexT (Mist) theme.
+ * Loaded after css/main.css, so it only overrides colors.
+ */
+
+html,
+body {
+  background: #1d2024;
+  color: #c5cbd3;
+}
+
+::selection {
+  background: #3b5b7a;
+  color: #fff;
+}
+
+a,
+.post-body a {
+  color: #7db7e8;
+}
+
+a:hover,
+.post-body a:hover {
+  color: #a9d4f5;
+}
+
+h1, h2, h3, h4, h5, h6,
+.site-title,
+.post-title,
+.post-title a {
+  color: #e3e7ec;
+}
+
+.post-title a:hover {
+  color: #7db7e8;
+}
+
+.header,
+.header-inner,
+.headband,
+.sidebar,
+.sidebar-inner,
+.main,
+.footer {
+  background: #1d2024;
+}
+
+.header {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.headband,
+.sidebar-toggle-line,
+.sidebar-toggle-line-first,
+.sidebar-toggle-line-middle,
+.sidebar-toggle-line-last {
+  background: #5b636d;
+}
+
+.site-subtitle,
+.site-description,
+.post-meta,
+.post-meta a,
+.footer,
+.site-meta,
+.site-state-item a,
+.site-author-name,
+.site-description,
+.post-nav-item a,
+.pagination .prev,
+.pagination .next,
+.pagination .page-number,
+.pagination .space,
+.post-meta-item-text {
+  color: #8f99a5;
+}
+
+.menu .menu-item a,
+.site-state-item a,
+.sidebar-nav li,
+.sidebar-nav li:hover {
+  color: #aab3bd;
+}
+
+.menu .menu-item a:hover,
+.sidebar-nav li:hover,
+.sidebar-nav .sidebar-nav-active {
+  color: #7db7e8;
+}
+
+.post-body,
+.post-body p,
+.post-body li,
+.post-body td,
+.post-body th {
+  color: #c5cbd3;
+}
+
+.post-body hr {
+  border-color: #3a3f46;
+}
+
+.post-body blockquote {
+  color: #8f99a5;
+  border-left-color: #3a3f46;
+}
+
+.post-body code,
+.post-body pre,
+pre,
+code {
+  background: #262a30;
+  color: #d2d8df;
+}
+
+.post-body pre {
+  border-color: #3a3f46;
+}
+
+.post-body table,
+.post-body th,
+.post-body td,
+table,
+table>thead>tr>th,
+table>tbody>tr>td {
+  border-color: #3a3f46;
+}
+
+table>tbody>tr:nth-of-type(odd) {
+  background-color: #23272d;
+}
+
+table>tbody>tr:hover {
+  background-color: #2a2f36;
+}
+
+.post-toc,
+.post-toc a,
+.post-toc-content {
+  color: #aab3bd;
+}
+
+.post-toc .active > a,
+.post-toc .active-current > a {
+  color: #7db7e8;
+}
+
+.post-block,
+.post-body .fancybox img,
+.posts-expand .post-header:hover::before {
+  border-color: #3a3f46;
+}
+
+.pagination .page-number.current {
+  background: #7db7e8;
+  color: #1d2024;
+}
+
+.btn,
+.post-more-link .btn {
+  background: #262a30;
+  border-color: #3a3f46;
+  color: #c5cbd3;
+}
+
+.btn:hover,
+.post-more-link .btn:hover {
+  background: #2f353d;
+  border-color: #7db7e8;
+  color: #7db7e8;
+}
+
+.search-popup {
+  background: #262a30;
+  color: #c5cbd3;
+}
+
+.local-search-input,
+.search-input {
+  background: #1d2024;
+  color: #c5cbd3;
+  border-color: #3a3f46;
+}
+
+.back-to-top {
+  background: #262a30;
+  color: #8f99a5;
+}
+
+.back-to-top-on:hover {
+  color: #7db7e8;
+}
+
+.sidebar-nav {
+  border-color: #3a3f46;
+}
+
+.site-author-image {
+  border-color: #3a3f46;
+}
+
+.links-of-author a,
+.links-of-blogroll a {
+  color: #7db7e8;
+}
+
+.copyright,
+.powered-by,
+.theme-info {
+  color: #8f99a5;
+}
