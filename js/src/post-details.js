@@ -115,7 +115,13 @@ $(document).ready(function () {
   $('.post-toc a').on('click', function (e) {
     e.preventDefault();
     var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
-    var offset = $(targetSelector).offset().top;
+    var $target = $(targetSelector);
+
+    if (!$target.length) {
+      return;
+    }
+
+    var offset = $target.offset().top;
 
     hasVelocity ?
       html.velocity('stop').velocity('scroll', {

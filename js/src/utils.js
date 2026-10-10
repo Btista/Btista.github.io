@@ -11,7 +11,7 @@ NexT.utils = NexT.$u = {
       var imageTitle = $image.attr('title');
       var $imageWrapLink = $image.parent('a');
 
-      if ($imageWrapLink.size() < 1) {
+      if ($imageWrapLink.length < 1) {
         $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
       }
 
@@ -136,8 +136,7 @@ NexT.utils = NexT.$u = {
    * via comparing location.path with menu item's href.
    */
   addActiveClassToMenuItem: function () {
-    var path = window.location.pathname;
-    path = path === '/' ? path : path.substring(0, path.length - 1);
+    var path = window.location.pathname.replace(/\/$/, '') || '/';
     $('.menu-item a[href="' + path + '"]').parent().addClass('menu-item-active');
   },
 
