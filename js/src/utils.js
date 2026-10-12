@@ -11,7 +11,7 @@ NexT.utils = NexT.$u = {
       var imageTitle = $image.attr('title');
       var $imageWrapLink = $image.parent('a');
 
-      if ($imageWrapLink.size() < 1) {
+      if ($imageWrapLink.length < 1) {
         $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
       }
 
@@ -136,15 +136,14 @@ NexT.utils = NexT.$u = {
    * via comparing location.path with menu item's href.
    */
   addActiveClassToMenuItem: function () {
-    var path = window.location.pathname;
-    path = path === '/' ? path : path.substring(0, path.length - 1);
+    var path = window.location.pathname.replace(/\/$/, '') || '/';
     $('.menu-item a[href="' + path + '"]').parent().addClass('menu-item-active');
   },
 
   hasMobileUA: function () {
     var nav = window.navigator;
     var ua = nav.userAgent;
-    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/;
 
     return pa.test(ua);
   },
@@ -172,7 +171,7 @@ NexT.utils = NexT.$u = {
   },
 
   displaySidebar: function () {
-    if (!this.isDesktop() || this.isPisces()) {
+    if (!this.isDesktop()) {
       return;
     }
     $('.sidebar-toggle').trigger('click');
@@ -180,10 +179,6 @@ NexT.utils = NexT.$u = {
 
   isMist: function () {
     return CONFIG.scheme === 'Mist';
-  },
-
-  isPisces: function () {
-    return CONFIG.scheme === 'Pisces';
   },
 
   getScrollbarWidth: function () {
@@ -194,14 +189,5 @@ NexT.utils = NexT.$u = {
     $div.remove();
 
     return scrollbarWidth;
-  },
-
-  /**
-   * Affix behaviour for Sidebar.
-   *
-   * @returns {Boolean}
-   */
-  needAffix: function () {
-    return this.isPisces();
   }
 };
